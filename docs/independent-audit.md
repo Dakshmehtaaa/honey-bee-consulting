@@ -21,9 +21,15 @@ The audit inspected the actual HTML, CSS, JavaScript, bilingual copy, images, lo
 | Contact without scripts | In EN and static FR, fake entries followed by a button click and Enter produce **no new navigation or GET submission**. Submit is disabled; form fields have no serialised names; the direct-email fallback remains visible. |
 | Storage and resources | Observed storage contains only `honeybee-language`. No analytics or remote embedded form was observed. Fonts and imagery load locally. Both CSVs parse as five rows with nine columns. |
 | Contrast | The corrected olive colour has **5.11:1–5.81:1** contrast against the sampled about, cream, template and paper backgrounds. Hero copy and controls were visually inspected. |
-| Brand assets | SVG and PNG exports inspected. The bee has a distinct round head, antennae, fine wing outlines and a striped body. The mark and wordmark render without clipping. |
+| Brand assets | Final minimal monochrome mark has three filled SVG elements: a round head, paired wings and a body with one open band. Head and silhouette remain visible at favicon sizes and in 320/1440 px headers. Mark and wordmark PNG pixels match the corresponding SVG renders. Exports and social cover render without clipping. |
 | Browser errors | **0** script errors or failed resource responses in the final eight-configuration browser pass. |
 | Existing tests | **11 passed, 0 failed**: calculator arithmetic and invalid-input handling, safe email encoding, local references, translation-key coverage, and bundled font/licence presence. |
+
+**Final brand delta — 10 October 2026**
+
+The user requested fewer logo elements after the full-site acceptance. The final bee removes outlines, antennae and the separate thorax. The bounded follow-up inspected the SVG, both PNG exports, the wordmark, social cover, 320/1440 px headers and the favicon asset rendered at 16, 24, 32, 48 and 80 px. The round head is distinct, the open band survives small rendering, and no header clipping or page overflow was found. Both PNG exports exactly match their SVG rasterisations.
+
+Only `bee-mark.svg/png`, `honey-bee-logo.svg/png` and `social-cover.png` changed in `dist/`. The other **27 files** are byte-identical to the previously accepted tree fingerprint `ef682e5522fd269c61ac9c597d2cf314929adbc9b7a665cd82c0411ed2570561`, recovered from Git HEAD. The photographs, content, styles and application logic therefore retain the earlier acceptance. The full tools matrix was not rerun for this asset-only change. **Brand delta: PASS; broader acceptance retained.**
 
 **Findings repaired and rechecked**
 
@@ -52,7 +58,7 @@ Linked primary resources were opened during the audit. The [EFRAG VSME page](htt
 
 **Evidence and scope limits**
 
-- Final screenshots: `.qa/auditor/final-en-1440-hero.png`, `.qa/auditor/final-fr-390-hero.png`, and EN/FR `final-*-320-extreme-calculator.png`. Earlier narrow-width, tool and privacy screenshots are retained in the same folder.
+- Full-site screenshots: `.qa/auditor/final-en-1440-hero.png`, `.qa/auditor/final-fr-390-hero.png`, and EN/FR `final-*-320-extreme-calculator.png`. Current minimal-brand captures: `brand-minimal-header-320.png`, `brand-minimal-header-1440.png` and `brand-minimal-favicon-sizes.png` in the same folder.
 - Browser behaviour was tested in local headless Chromium with simulated viewport widths. Safari, Firefox, physical mobile devices and actual email-client opening were not tested.
 - The audit verifies the local build. Public deployment, hosted byte equality, trademark clearance and independent verification of the founder’s qualifications are outside this acceptance.
 - Sampled contrast and keyboard checks do not constitute a complete accessibility certification.
@@ -61,7 +67,7 @@ Linked primary resources were opened during the audit. The [EFRAG VSME page](htt
 
 The final `dist/` tree contains **32 files**. Its tree fingerprint is:
 
-`ef682e5522fd269c61ac9c597d2cf314929adbc9b7a665cd82c0411ed2570561`
+`26c0238b6414121ce9a5e3279cf5373c6b51dfde1dc6f55237767bcd9aa2287e`
 
 Fingerprint method: sort the files by relative path; for each, append `path + NUL + SHA-256(file bytes) + LF`; take SHA-256 of that UTF-8 manifest. This includes the final French page, copy dictionary, contact safeguards, calculator styling, logos, fonts and normalised licence files.
 

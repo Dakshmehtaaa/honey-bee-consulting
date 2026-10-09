@@ -2,7 +2,7 @@
 
 ## Logo
 
-The original bee mark uses a visible round head, fine antennae, open wings, a dark thorax and two clean bands on a honey-coloured abdomen. The mark and wordmark are designed for a warm, restrained consulting identity.
+The original bee mark is a minimal ink silhouette: one clear round head, two plain wings and a single open band through the body. Three filled vector elements keep it readable at small sizes. The wordmark gives the identity a warm, restrained consulting feel.
 
 - `dist/assets/bee-mark.svg`: scalable transparent mark, used in the header and favicon.
 - `dist/assets/bee-mark.png`: transparent 512-pixel mark.
@@ -10,7 +10,7 @@ The original bee mark uses a visible round head, fine antennae, open wings, a da
 - `dist/assets/honey-bee-logo.png`: transparent horizontal PNG lockup.
 - `dist/assets/social-cover.png`: social-sharing cover.
 
-The logo was drawn in editable vector form. It was revised to add an explicit head and lighter wing outlines.
+The logo was drawn in editable vector form, then simplified to a clear silhouette with three elements.
 
 ## Palette and typography
 
@@ -35,5 +35,7 @@ With the optional Sharp dependency installed, use Node 22 and pass your original
 ```sh
 node scripts/prepare-assets.mjs /path/to/bee-photo.png /path/to/founder-portrait.png
 ```
+
+Use `node scripts/prepare-assets.mjs --logos-only` to update logo exports without changing the photography.
 
 Published optimised images are already included, so normal website edits do not need this step.
