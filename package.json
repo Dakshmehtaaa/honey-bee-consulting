@@ -1,0 +1,13 @@
+{
+  "name": "honey-bee-consulting",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Practical CSR and ESG consulting by Daksh Mehta, in English and French.",
+  "scripts": {
+    "test": "node --test tests/*.test.cjs",
+    "copy": "node scripts/compile-copy.mjs",
+    "preview": "python3 -m http.server 8028 --bind 127.0.0.1 --directory dist"
+  },
+  "engines": { "node": ">=22" },
+  "devDependencies": { "sharp": "^0.34.5" }
+}

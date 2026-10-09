@@ -1,0 +1,39 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+const root = path.resolve(import.meta.dirname, '..');
+const french = JSON.parse(await fs.readFile(path.join(root, 'dist/assets/fr.json'), 'utf8'));
+const english = {};
+const attributes = {};
+function decode(text) { return text.replaceAll('&amp;', '&').replaceAll('&quot;', '"').replaceAll('&#39;', "'").replaceAll('&lt;', '<').replaceAll('&gt;', '>'); }
+function encode(text) { return text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;'); }
+const tagPattern = /(<([a-z][\w-]*)\b[^>]*\bdata-i18n="([^"]+)"[^>]*>)([^<]*)(<\/\2>)/gi;
+for (const name of ['index.html', 'privacy.html']) {
+  const html = await fs.readFile(path.join(root, 'dist', name), 'utf8');
+  for (const match of html.matchAll(tagPattern)) english[match[3]] = decode(match[4]);
+  for (const [key, attribute] of [['data-i18n-aria', 'aria-label'], ['data-i18n-alt', 'alt'], ['data-i18n-placeholder', 'placeholder']]) {
+    for (const tag of html.matchAll(/<[^>]+>/g)) {
+      const id = tag[0].match(new RegExp(key + '="([^"]+)"'));
+      const value = tag[0].match(new RegExp('\\b' + attribute + '="([^"]*)"'));
+      if (id && value) attributes[id[1]] = decode(value[1]);
+    }
+  }
+}
+const globals = { HONEY_FRENCH: french, HONEY_ENGLISH: english, HONEY_EN_ATTRIBUTES: attributes };
+await fs.writeFile(path.join(root, 'dist/assets/copy.js'), Object.entries(globals).map(([key, value]) => 'window.' + key + ' = ' + JSON.stringify(value, null, 2) + ';').join('\n') + '\n');
+let html = await fs.readFile(path.join(root, 'dist/index.html'), 'utf8');
+html = html.replace('<html lang="en">', '<html lang="fr">');
+html = html.replace(tagPattern, (whole, opening, tag, key, text, closing) => opening + encode(french[key] || decode(text)) + closing);
+for (const [key, attribute] of [['data-i18n-aria', 'aria-label'], ['data-i18n-alt', 'alt'], ['data-i18n-placeholder', 'placeholder']]) {
+  html = html.replace(/<[^>]+>/g, tag => {
+    const id = tag.match(new RegExp(key + '="([^"]+)"'));
+    return id && french[id[1]] ? tag.replace(new RegExp('\\b' + attribute + '="[^"]*"'), attribute + '="' + encode(french[id[1]]) + '"') : tag;
+  });
+}
+html = html.replace(/<title>[^<]*<\/title>/, '<title>' + encode(french['metadata.title']) + '</title>');
+html = html.replace(/(<meta name="description" content=")[^"]*/, '$1' + encode(french['metadata.description']));
+html = html.replace(/(<meta property="og:title" content=")[^"]*/, '$1' + encode(french['metadata.title']));
+html = html.replace(/(<meta property="og:description" content=")[^"]*/, '$1' + encode(french['metadata.description']));
+html = html.replace('rel="canonical" href="https://dakshmehtaaa.github.io/honey-bee-consulting/"', 'rel="canonical" href="https://dakshmehtaaa.github.io/honey-bee-consulting/fr.html"');
+html = html.replace('property="og:url" content="https://dakshmehtaaa.github.io/honey-bee-consulting/"', 'property="og:url" content="https://dakshmehtaaa.github.io/honey-bee-consulting/fr.html"');
+await fs.writeFile(path.join(root, 'dist/fr.html'), html);
+console.log('Compiled French copy: ' + Object.keys(french).length + ' entries and static French homepage.');
