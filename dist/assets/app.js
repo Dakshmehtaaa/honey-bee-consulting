@@ -151,6 +151,7 @@
     if (menu) menu.setAttribute('aria-label', menu.getAttribute('aria-expanded') === 'true' ? ui[language].closeMenu : ui[language].openMenu);
     if (emailPrepared) document.getElementById('contact-status').textContent = ui[language].emailStatus;
     updatePriority(); updateCalculator(); updateMotion();
+    document.dispatchEvent(new CustomEvent('honey:language', { detail: language }));
     try { localStorage.setItem('honeybee-language', language); } catch (_) { /* Preferences are optional. */ }
   }
   document.querySelectorAll('[data-lang]').forEach(button => button.addEventListener('click', () => setLanguage(button.dataset.lang)));

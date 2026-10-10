@@ -4,9 +4,31 @@
 
 10 October 2026 · Separate GPT-6.1 Sol MAX auditor · Chromium headless · Preview: `http://127.0.0.1:8028/`
 
-The audit inspected the actual HTML, CSS, JavaScript, bilingual copy, images, logo exports, downloads and public-source wording. The coordinator retains final acceptance and publication ownership.
+The audit inspected the actual HTML, CSS, JavaScript, bilingual copy, images, logo exports, downloads and public-source wording. The current review covers the service-card and buyer-request comparison update below. The earlier full-site and minimal-logo acceptance is retained as a separate baseline, not presented as a newly repeated tools matrix. The coordinator retains final acceptance and publication ownership.
 
-**Acceptance evidence**
+**Current service and comparison delta — 10 October 2026**
+
+The auditor read the final `index.html`, `fr.html`, `assets/experience.js`, `assets/experience.css`, bilingual dictionaries and the change to `assets/app.js`. The service presentation was compared with the actual portfolio at `/tmp/honey-bee-portfolio-20261010`: square artwork, rounded cards, short sans-serif titles, bottom framework rows and the phone carousel follow the source structure. Both newly included EcoVadis/CDP image files are byte-identical to the supplied portfolio assets.
+
+| Area | Actual current-delta check and result |
+|---|---|
+| English and French layout | **320, 390, 768 and 1440 px** in each language. Document width equals viewport width in all eight configurations; no page overflow with all service details opened or business benefits expanded. Static `fr.html` starts in French. |
+| Service presentation | All three artwork boxes measure **1:1** in every configuration. Rounded cards and DM Sans titles render correctly; all illustration/framework images load. Clean viewport captures reviewed at EN 1440 and FR 320/390, including the full cards and phone cards two/three. |
+| Service controls | Phone next arrows, ArrowLeft on the focused track, direct horizontal scrolling and the **1 / 3 → 2 / 3 → 3 / 3** counter pass in both languages at 320/390. Previous-button activation also passes in the final 320 px EN/FR recheck. Boundary arrows disable correctly. Comparison buttons and playback controls measure **44 px** high in sampled desktop/phone views. |
+| Optional detail | Service deliverables and business benefits start closed. Business-benefit details open and close normally; the native disclosure also works without scripts. The adjacent audience and tools boundaries retain their layout. |
+| Comparison content | Both businesses face the same stated request: policy/records, a measured dated result and a responsible contact. The competitor is explicitly an unprepared example. The outcome is easier assessment, with a nearby price/quality/fit limitation; no score, measured sales uplift, winner or guaranteed contract is asserted. |
+| Eight preparation states | All **8 combinations** tested in each language at 390 px. Toggle `aria-pressed` values, each item's status and the illustrated windows match the selected features. Empty, partial and fully prepared titles/results use the correct language keys. The example competitor remains unprepared in every state. |
+| Playback | The comparison does not advance automatically. Manual playback clears the example and adds its three features in order. Pause after the first step remains stable beyond a step interval; resume completes the remaining steps; a manual toggle cancels playback. Moving the comparison fully offscreen pauses it and preserves its state. |
+| Live language change | EN → FR during a paused partial example preserves the selected items and uses the French partial result and “Continuer” label. Continuing completes the same example and shows “Revoir”. The new language event restores dynamic text after the main translator runs. |
+| Reduced motion | Initial reduced-motion contexts in both languages complete replay immediately, with no timed playback. Changing the preference during playback also ends the timed sequence. Window transitions measure **0 s**; carousel scroll snap is disabled. |
+| Without scripts | EN and static FR retain readable prepared/unprepared examples, disabled comparison buttons and a translated explanation. Native service scrolling remains available. After the repaired finding below, the inactive navigation/counter is hidden; bounded final EN/FR checks at 320 px confirm it appears only with working scripts. |
+| Errors and existing tests | **0** script errors or failed resource responses in the eight-configuration pass; **0** script errors in the final fallback repair check. Independently rerun on the repaired final build: **11 tests passed, 0 failed**, including local references and French-key coverage. The current French dictionary contains **236 entries**. |
+
+**Current-delta finding repaired and rechecked:** without JavaScript, the native service scroller could reach the third card while the visible counter stayed at “1 / 3” (`index.html:72`, also generated in `fr.html`). The navigation row now has a source `hidden` attribute; CSS respects it; `experience.js` reveals the row after installing handlers and calculating its state. Final EN/FR checks at 320 px verify hidden navigation with scripts disabled, usable native scrolling, and working arrows/counters with scripts enabled. **Current delta: PASS; no unresolved findings.**
+
+The current tree adds four files and changes five existing files relative to the accepted 32-file baseline `26c0238b6414121ce9a5e3279cf5373c6b51dfde1dc6f55237767bcd9aa2287e`. The other **27 files** remain byte-identical, including the accepted minimal bee exports, photographs, original stylesheet, calculator core, downloads and privacy pages. The application change outside the new experience module is the language event. Calculator/email browser extremes were not repeated for this delta; their prior acceptance and the freshly passing unit tests remain the relevant evidence.
+
+**Prior full-site acceptance evidence**
 
 | Area | Actual check and result |
 |---|---|
@@ -25,13 +47,13 @@ The audit inspected the actual HTML, CSS, JavaScript, bilingual copy, images, lo
 | Browser errors | **0** script errors or failed resource responses in the final eight-configuration browser pass. |
 | Existing tests | **11 passed, 0 failed**: calculator arithmetic and invalid-input handling, safe email encoding, local references, translation-key coverage, and bundled font/licence presence. |
 
-**Final brand delta — 10 October 2026**
+**Prior minimal-brand delta — 10 October 2026**
 
 The user requested fewer logo elements after the full-site acceptance. The final bee removes outlines, antennae and the separate thorax. The bounded follow-up inspected the SVG, both PNG exports, the wordmark, social cover, 320/1440 px headers and the favicon asset rendered at 16, 24, 32, 48 and 80 px. The round head is distinct, the open band survives small rendering, and no header clipping or page overflow was found. Both PNG exports exactly match their SVG rasterisations.
 
-Only `bee-mark.svg/png`, `honey-bee-logo.svg/png` and `social-cover.png` changed in `dist/`. The other **27 files** are byte-identical to the previously accepted tree fingerprint `ef682e5522fd269c61ac9c597d2cf314929adbc9b7a665cd82c0411ed2570561`, recovered from Git HEAD. The photographs, content, styles and application logic therefore retain the earlier acceptance. The full tools matrix was not rerun for this asset-only change. **Brand delta: PASS; broader acceptance retained.**
+At that earlier asset-only review, `bee-mark.svg/png`, `honey-bee-logo.svg/png` and `social-cover.png` were the only changed `dist/` files. The other **27 files** were byte-identical to the preceding full-site fingerprint `ef682e5522fd269c61ac9c597d2cf314929adbc9b7a665cd82c0411ed2570561`, recovered from the then-current Git HEAD. The full tools matrix was not rerun for that asset-only change. It established the accepted 32-file baseline `26c0238b6414121ce9a5e3279cf5373c6b51dfde1dc6f55237767bcd9aa2287e`. The minimal bee remains unchanged in the current service/comparison update. **Brand delta: PASS; broader acceptance retained.**
 
-**Findings repaired and rechecked**
+**Prior full-site findings repaired and rechecked**
 
 | Finding | Repair verified |
 |---|---|
@@ -58,17 +80,19 @@ Linked primary resources were opened during the audit. The [EFRAG VSME page](htt
 
 **Evidence and scope limits**
 
-- Full-site screenshots: `.qa/auditor/final-en-1440-hero.png`, `.qa/auditor/final-fr-390-hero.png`, and EN/FR `final-*-320-extreme-calculator.png`. Current minimal-brand captures: `brand-minimal-header-320.png`, `brand-minimal-header-1440.png` and `brand-minimal-favicon-sizes.png` in the same folder.
+- Prior full-site screenshots: `.qa/auditor/final-en-1440-hero.png`, `.qa/auditor/final-fr-390-hero.png`, and EN/FR `final-*-320-extreme-calculator.png`. Prior minimal-brand captures: `brand-minimal-header-320.png`, `brand-minimal-header-1440.png` and `brand-minimal-favicon-sizes.png` in the same folder.
+- Current delta: `.qa/auditor/current-delta-results.json`, `nojs-counter-recheck.json`, EN 1440 `delta-en-1440-cards.png` / `delta-en-1440-comparison.png`, and FR 320/390 `delta-fr-*-services.png` / `delta-fr-*-comparison*.png`. The matrix evidence predates only the bounded navigation fallback repair; that repair has its own final recheck. Viewport screenshots preserve the real sticky header and avoid the locator-capture overlap issue.
 - Browser behaviour was tested in local headless Chromium with simulated viewport widths. Safari, Firefox, physical mobile devices and actual email-client opening were not tested.
+- Background-tab handling is present in source; visibility-change behaviour was not independently simulated. Offscreen pause was exercised in the browser.
 - The audit verifies the local build. Public deployment, hosted byte equality, trademark clearance and independent verification of the founder’s qualifications are outside this acceptance.
 - Sampled contrast and keyboard checks do not constitute a complete accessibility certification.
 
 **Reviewed artifact identity**
 
-The final `dist/` tree contains **32 files**. Its tree fingerprint is:
+The final service/comparison `dist/` tree contains **36 files**. Its tree fingerprint is:
 
-`26c0238b6414121ce9a5e3279cf5373c6b51dfde1dc6f55237767bcd9aa2287e`
+`9d4304ec51d907294ba503086fe447ada8136555766999a6a16904680731f84b`
 
-Fingerprint method: sort the files by relative path; for each, append `path + NUL + SHA-256(file bytes) + LF`; take SHA-256 of that UTF-8 manifest. This includes the final French page, copy dictionary, contact safeguards, calculator styling, logos, fonts and normalised licence files.
+Fingerprint method: sort the files by relative path; for each, append `path + NUL + SHA-256(file bytes) + LF`; take SHA-256 of that UTF-8 manifest. This includes the final bilingual pages and dictionaries, new experience assets and repaired fallback, retained contact safeguards, calculator styling, logos, fonts and normalised licence files.
 
-Usage: exact audit token consumption and audit-specific provider quota data were unavailable.
+Route used: **GPT-6.1 Sol MAX**. Exact audit token consumption and audit-specific provider quota data were unavailable.

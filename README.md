@@ -8,8 +8,9 @@ A practical CSR and ESG consulting website for Daksh Mehta. Two audience paths: 
 ## The experience
 
 - Full-image bee hero, with gentle motion, a pause control and reduced-motion support.
-- Three illustrated service areas, adapted from Daksh’s own portfolio. Deliverables open on request.
-- Concrete business benefits and measures, with clear limits on commercial outcomes.
+- Portfolio-style service cards with square illustrations, short copy, framework marks and mobile swipe/arrow navigation. Deliverables open on request.
+- An interactive buyer-request comparison: organise evidence, measure an action and assign an owner. A short replay shows the preparation building, with pause and reduced-motion support.
+- Concrete business benefits and measures, available on request, with clear limits on commercial outcomes.
 - A priority guide and cost-saving scenario calculator. Tools open on request and run locally.
 - An evidence-register template in English and French, without an email gate.
 - Founder background, useful official resources and an enquiry form that prepares an email draft.
@@ -40,7 +41,8 @@ No package installation is needed to view or serve the website or run those chec
 - **French content:** `dist/assets/fr.json`. Preserve the scope and limitations of the English copy.
 - **Dynamic tools and labels:** `dist/assets/app.js`.
 - **Calculator and draft logic:** `dist/assets/business-core.js`.
-- **Design:** `dist/assets/style.css`.
+- **Design:** `dist/assets/style.css` and `dist/assets/experience.css`.
+- **Service navigation and comparison:** `dist/assets/experience.js`.
 - **Contact:** search the HTML and `business-core.js` for `Dakshmehta077@gmail.com` when replacing it with the future business address.
 
 After changing English or French copy, regenerate the shared dictionary and the static French homepage:

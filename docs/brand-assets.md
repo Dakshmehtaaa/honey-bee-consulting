@@ -20,7 +20,7 @@ Ink `#24251f`, honey `#f3c544`, warm paper `#fbfaf5`, and olive `#596747`. Instr
 
 `dist/assets/bee-meadow.webp` is a generated illustrative nature image, created using the built-in image-generation tool. It is not evidence of a client project or environmental result. The original was copied into the project as an optimised asset. `dist/assets/daksh.webp` is an optimised copy of Daksh’s own public portfolio portrait.
 
-The three SVG service illustrations are adapted from the code-native illustrations in Daksh’s personal portfolio at commit `89f19c8adfddef72af58f733f5348463f87de76f`, with self-contained honey and olive colours. They retain the portfolio’s visual language.
+The three SVG service illustrations are adapted from the code-native illustrations in Daksh’s personal portfolio at commit `89f19c8adfddef72af58f733f5348463f87de76f`, with self-contained honey and olive colours. They retain the portfolio’s visual language. The service cards also follow its square-art, rounded-card layout. EcoVadis and CDP marks are exact copies of the public portfolio assets, used to identify questionnaire frameworks rather than as client or certification claims.
 
 ## Image-generation prompt
 
