@@ -51,8 +51,6 @@ def hero():
     s.append(bloom(2, 286, 700, stem(286, 720, 292, 520, bend=18, leaves=((.5, -1),), leaf=28, sw=3) + cup_flower(292, 512, 40, sw=3)))
     s.append(bloom(3, 620, 700, stem(620, 720, 626, 560, bend=-12, leaves=((.5, 1),), leaf=24, sw=2.8) + cup_flower(626, 554, 30, fill="#E39A62", sw=2.8)))
     s.append(bloom(4, 716, 700, stem(716, 720, 710, 520, bend=10, leaves=((.4, -1),), leaf=26, sw=2.8) + petal_flower(710, 518, 40, n=11, rot=20, sw=2.8)))
-    s.append(f'<path class="trail" d="M184,390 C206,300 262,256 318,248 S440,300 452,322" fill="none" stroke="{FOREST}" '
-             f'stroke-width="3" stroke-dasharray=".1 11" stroke-linecap="round" opacity=".8"/>')
     s.append(sparkles([(214, 328), (244, 290), (286, 266), (196, 360), (604, 220)], 3.2))
     s.append(f'<g class="hero-bee-back">{bee_g(640, 330, .34, 14, prop="pollen", flip=True)}</g>')
     return svg_el(f"0 0 {W} {H}", "".join(s), "hero-svg")
@@ -88,11 +86,15 @@ def goggles_ground():
 
 
 # ---------- the market: many competitors, clients pick the best ESG ----------
-COMPETE_GOLD = (742, 108, 3)
-COMPETE_HIVES = [(80, 76, 1), (196, 90, 2), (318, 78, 1), (440, 96, 2), (580, 82, 1), COMPETE_GOLD, (900, 92, 2), (1020, 78, 1), (1132, 90, 2)]
-
-
-SCORES = [38, 44, 41, 52, 35, 86, 47, 33, 49]
+# The market is drawn 2400 wide and sliced from the middle (preserveAspectRatio xMidYMax slice), so it
+# runs edge to edge on any screen: a phone sees the gold hive and its neighbours, a 32-inch monitor
+# sees the whole row. The gold hive sits at the exact centre, x 1200.
+COMPETE_W, COMPETE_C = 2400, 1200
+COMPETE_GOLD = (1200, 108, 3)
+COMPETE_HIVES = [(70, 70, 1), (190, 82, 2), (318, 66, 1), (436, 78, 2), (560, 70, 1), (680, 64, 1), (796, 82, 2), (918, 66, 1),
+                 (1040, 84, 2), COMPETE_GOLD, (1358, 80, 2), (1478, 66, 1), (1590, 78, 2), (1712, 68, 1), (1830, 84, 2),
+                 (1952, 66, 1), (2070, 78, 2), (2196, 70, 1), (2320, 82, 2)]
+SCORES = [42, 36, 51, 39, 45, 33, 48, 40, 52, 86, 47, 35, 44, 50, 38, 43, 34, 49, 41]
 
 
 def score_colour(v):
@@ -121,44 +123,33 @@ def score_tag(cx, yb, v, gold=False):
     return s
 
 
-def ground_skep(cx, g, w, tall, gold=False):
-    """A skep standing on a little board; returns (svg, top y)."""
-    n = 3 + tall
-    rh = w * .25
-    step = rh * .8
-    # a dome: narrow at the top, widest at the bottom ring
-    halves = [w / 2 * (0.42 + 0.58 * math.sqrt((k / (n - 1)) * (2 - k / (n - 1)))) for k in range(n)]
-    top = g - 10 - step * (n - 1) - rh
-    sw = 3 if gold else 2.4
-    board = (f'<path d="M{cx-w*.62:.1f},{g-10} H{cx+w*.62:.1f} L{cx+w*.56:.1f},{g} H{cx-w*.56:.1f} Z" '
-             f'fill="{HONEY_D if gold else MUTE_SIDE}" stroke="{INK if gold else MUTE_LINE}" stroke-width="{sw}" stroke-linejoin="round"/>')
-    cap = (f'<path d="M{cx-halves[0]*.55:.1f},{top+rh*.3:.1f} Q{cx},{top-rh*.55:.1f} {cx+halves[0]*.55:.1f},{top+rh*.3:.1f}" '
-           f'fill="{POLLEN if gold else MUTE_TOP}" stroke="{INK if gold else MUTE_LINE}" stroke-width="{sw}"/>')
-    door = (cx, g - 10 - rh * .42, w * .11, rh * .3)
-    return board + cap + skep(cx, top, halves, rh, gold=gold, sw=sw, door=door, step=step), top - rh * .3
+def hive_top(w, boxes):
+    """Top of a box_hive's lid, measured from the ground it stands on."""
+    return w * (.16 + .07 + .42 * boxes + .17 + .16)
 
 
 def compete():
-    W, H, g = 1200, 420, 372
-    s = [hill(f"M0,{H} V342 C200,322 420,330 600,340 C800,350 1000,326 {W},334 V{H} Z", "url(#g-hill-a)"),
-         hill(f"M0,{H} V386 C240,370 480,378 700,390 C900,400 1060,384 {W},388 V{H} Z", "url(#g-hill-b)")]
+    W, H, g = COMPETE_W, 420, 372
+    s = [hill(f"M0,{H} V342 C300,322 620,334 900,340 C1200,348 1500,326 1800,334 C2050,340 2250,326 {W},332 V{H} Z", "url(#g-hill-a)"),
+         hill(f"M0,{H} V386 C340,370 700,380 1000,390 C1300,400 1660,382 1980,388 C2180,392 2300,384 {W},386 V{H} Z", "url(#g-hill-b)")]
     gx, gw, gb = COMPETE_GOLD
-    s.append(f'<g class="lit">{glow(gx, g - 150, 230)}</g>')
+    s.append(f'<g class="lit">{glow(gx + 10, g - 150, 230)}</g>')
     for i, (x, w, boxes) in enumerate(COMPETE_HIVES):
         if (x, w, boxes) == COMPETE_GOLD:
             continue
-        art, top = ground_skep(x, g, w, boxes)
-        s.append(f'<g class="rise" style="--i:{i}">{shadow(x, g + 2, w * .7, w * .08)}{art}{score_tag(x, top - 10, SCORES[i])}</g>')
-    s.append(f'<g class="lit">{trail("M20,96 C200,40 430,60 560,150 S700,290 716,330", sw=2.6, gap=12)}'
-             f'{trail("M1180,90 C1040,44 900,96 830,176 S774,290 768,330", sw=2.6, gap=12)}</g>')
-    art, top = ground_skep(gx, g, gw * 1.3, 2, gold=True)
-    s.append(f'<g class="lit">{art}{score_tag(gx, top - 12, SCORES[5], gold=True)}</g>')
-    for i, (x, r, kind) in enumerate([(660, 20, "d"), (688, 15, "c"), (812, 18, "d"), (842, 13, "d"), (628, 12, "d")]):
+        top = g - hive_top(w, boxes)
+        s.append(f'<g class="rise" style="--i:{abs(i - 9)}">{shadow(x + w * .15, g + 2, w * .8, w * .09)}{box_hive(x, g, w, boxes, sw=2.6)}'
+                 f'{score_tag(x + w * .1, top - 12, SCORES[i])}</g>')
+    s.append(f'<g class="lit">{trail("M480,96 C660,40 890,60 1018,150 S1174,290 1186,330", sw=2.6, gap=12)}'
+             f'{trail("M1920,90 C1780,44 1640,96 1560,176 S1250,300 1222,330", sw=2.6, gap=12)}</g>')
+    s.append(f'<g class="lit">{box_hive(gx, g, gw, gb, gold=True, sw=3)}{score_tag(gx + gw * .1, g - hive_top(gw, gb) - 14, SCORES[9], gold=True)}</g>')
+    for i, (x, r, kind) in enumerate([(1118, 20, "d"), (1146, 15, "c"), (1270, 18, "d"), (1300, 13, "d"), (1086, 12, "d")]):
         head = petal_flower(x, g - 8 - r * 1.6, r, n=10, sw=2) if kind == "d" else cup_flower(x, g - 8 - r * 1.6, r, sw=2)
         s.append(f'<g class="lit">{bloom(i, x, g + 6, stem(x, g + 8, x, g - 8 - r * 1.6, bend=4, leaves=((.45, 1),), leaf=r * .8, sw=2) + head)}</g>')
-    for i, (x, y, sc, a, flip) in enumerate([(286, 52, .3, -6, False), (560, 120, .32, 18, False), (1010, 60, .3, -6, True), (880, 130, .32, 18, True)]):
+    for i, (x, y, sc, a, flip) in enumerate([(744, 62, .3, -6, False), (1010, 128, .32, 18, False), (1660, 70, .3, -6, True), (1400, 120, .32, 18, True)]):
         s.append(f'<g class="fly-in" style="--i:{i}">{bee_g(x, y, sc, a, prop="pollen", flip=flip)}</g>')
-    return svg_el(f"0 0 {W} {H}", "".join(s), "compete-svg")
+    return (f'<svg class="compete-svg" viewBox="0 0 {W} {H}" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">'
+            + "".join(s) + '</svg>')
 
 
 # ---------- the ESG loop: act on both pillars, prove it, win clients ----------
@@ -173,19 +164,20 @@ LOOP_ICONS = {
 
 def loop_ring():
     """The ring, its flowing dots, four chevrons, and a bee that flies round to the active stage."""
-    c, r = 260, 190
+    c, r = 260, 200
     chev = "".join(f'<path class="loop-chev" d="M-5-7 3 0-5 7" transform="translate({c + r * math.cos(math.radians(a - 90)):.1f} {c + r * math.sin(math.radians(a - 90)):.1f}) rotate({a})"/>' for a in (45, 135, 225, 315))
     # the bee rests just behind the active stage, with a honey trail behind it, so the node never hides it
     lag = math.radians(-27)
     bx, by = c + r * math.sin(lag), c - r * math.cos(lag)
     t0 = math.radians(-82)
     tail = (f'<path class="loop-tail" d="M{c + r * math.sin(t0):.1f} {c - r * math.cos(t0):.1f}A{r} {r} 0 0 1 {bx:.1f} {by:.1f}"/>')
-    bee = tail + f'<g class="loop-bee-fly">{bee_g(bx, by - 4, .24, -27, prop="pollen")}</g>'
+    # the outer group counter-rotates (CSS) so the bee stays upright all the way round
+    bee = tail + f'<g class="loop-bee-fly">{bee_g(bx, by - 4, .24, -10, prop="pollen")}</g>'
     return (f'<svg class="loop-art" viewBox="0 0 520 520" aria-hidden="true" focusable="false">'
-            f'<circle class="loop-halo" cx="{c}" cy="{c}" r="238"/><circle class="loop-halo loop-halo-2" cx="{c}" cy="{c}" r="150"/>'
+            f'<circle class="loop-halo" cx="{c}" cy="{c}" r="252"/><circle class="loop-halo loop-halo-2" cx="{c}" cy="{c}" r="138"/>'
             f'<circle class="loop-track" cx="{c}" cy="{c}" r="{r}"/>'
             f'<path class="loop-flow" pathLength="100" d="M{c} {c - r}a{r} {r} 0 1 1 0 {2 * r}a{r} {r} 0 1 1 0-{2 * r}"/>{chev}'
-            f'<circle class="loop-core" cx="{c}" cy="{c}" r="124"/>'
+            f'<circle class="loop-core" cx="{c}" cy="{c}" r="114"/>'
             f'<g class="loop-comet">{bee}</g></svg>')
 
 

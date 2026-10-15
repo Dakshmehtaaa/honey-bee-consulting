@@ -368,7 +368,10 @@ window.HONEY_FRENCH = {
   "story.help.s4.t": "Projets d’impact environnemental et social",
   "story.help.s4.b": "Nous planifions et menons les projets qui réduisent votre empreinte environnementale et créent une vraie valeur sociale, avec des responsables, des budgets et des résultats à montrer.",
   "story.help.s4.logos": "Référentiels et outils pour livrer",
-  "story.compete.key": "Chaque ruche est un concurrent. Le chiffre est son score ESG sur 100, le type de note qu’EcoVadis donne aux fournisseurs."
+  "story.compete.key": "Chaque ruche est un concurrent. Le chiffre est son score ESG sur 100, le type de note qu’EcoVadis donne aux fournisseurs.",
+  "story.help.prev": "Service précédent",
+  "story.help.next": "Service suivant",
+  "cpage.opt.impact": "Projets d’impact environnemental et social"
 };
 window.HONEY_ENGLISH = {
   "skip": "Skip to content",
@@ -464,6 +467,7 @@ window.HONEY_ENGLISH = {
   "cpage.opt.questionnaire": "A client ESG questionnaire",
   "cpage.opt.data": "CSR data, AI and automation",
   "cpage.opt.reporting": "CSR reporting and narrative",
+  "cpage.opt.impact": "Environmental and social impact projects",
   "cpage.opt.strategy": "A CSR strategy and action plan",
   "cpage.opt.other": "Not sure yet: help us find the start",
   "cpage.message": "A little context",
@@ -723,6 +727,8 @@ window.HONEY_ENGLISH = {
 window.HONEY_EN_ATTRIBUTES = {
   "story.brandHome": "honeybees.consulting, home",
   "nav.label": "Main navigation",
+  "story.help.prev": "Previous service",
+  "story.help.next": "Next service",
   "footer.nav": "Footer",
   "letter.placeholder": "you@company.com",
   "cpage.placeholder": "What is the challenge? Is there a deadline?",
