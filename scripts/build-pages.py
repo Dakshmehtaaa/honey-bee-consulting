@@ -14,6 +14,7 @@ from site_art import PIECES
 DIST = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'dist')
 PAGES = ['index.html', 'contact.html', 'resources.html', 'privacy.html']
 EMAIL = 'dakshmehta077@gmail.com'
+LINKEDIN = 'https://www.linkedin.com/company/146731866/'  # the honeybees.consulting company page
 
 
 def head_script(page):
@@ -62,7 +63,7 @@ def header(page):
 def footer(page):
     return f'''<footer class="foot">
     <section class="wrap letter" aria-labelledby="letter-title">
-      <div class="letter-bee" aria-hidden="true">{PIECES['letter']()}</div>
+      <div class="letter-art" aria-hidden="true">{PIECES['letter']()}</div>
       <div class="letter-copy">
         <h2 id="letter-title" data-i18n="letter.title">The honeybees letter</h2>
         <p data-i18n="letter.body">Short, useful ESG news for companies: new rules, what clients now ask for, what works. Once a month at most.</p>
@@ -84,7 +85,7 @@ def footer(page):
       <nav class="foot-links" aria-label="Footer" data-i18n-aria="footer.nav">
         <a href="resources.html" data-lang-link data-i18n="story.nav.resources">Resources</a>
         <a href="contact.html" data-lang-link data-i18n="story.nav.contact">Contact</a>
-        <a href="https://www.linkedin.com/in/mehtadaksh/" target="_blank" rel="me noopener noreferrer">LinkedIn ↗&#xFE0E;</a>
+        <a href="{LINKEDIN}" target="_blank" rel="noopener noreferrer">LinkedIn ↗&#xFE0E;</a>
         <a href="privacy.html" data-lang-link data-i18n="footer.privacy">Privacy &amp; site information</a>
       </nav>
     </div>
