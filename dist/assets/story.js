@@ -151,6 +151,47 @@
     measure(); kick();
   }
 
+  /* ---------- the Guide picks up its goggles once you start scrolling ---------- */
+  const groundGoggles = document.querySelector('.hero-goggles');
+  const onScrollGoggles = () => {
+    const on = scrollY > 40;
+    if (guide) guide.classList.toggle('has-goggles', on);
+    if (groundGoggles) groundGoggles.classList.toggle('taken', on && root.classList.contains('motion'));
+  };
+  if (groundGoggles) { addEventListener('scroll', onScrollGoggles, { passive: true }); onScrollGoggles(); }
+
+  /* ---------- the loop: Environment → People → Proof → Clients ---------- */
+  const loop = document.querySelector('[data-loop]');
+  let loopRestart = null;
+  if (loop) {
+    const ring = loop.querySelector('.loop-ring');
+    const nodes = [...loop.querySelectorAll('.loop-node')];
+    const panels = [...loop.querySelectorAll('.loop-panel')];
+    let index = 0, angle = 0, timer = 0, seen = false, held = false;
+    // The bee only ever flies forward round the ring, however far it has to go.
+    const select = i => {
+      angle += ((i - index + nodes.length) % nodes.length) * (360 / nodes.length);
+      index = i;
+      ring.style.setProperty('--angle', angle + 'deg');
+      nodes.forEach((n, k) => { n.classList.toggle('is-active', k === i); n.setAttribute('aria-pressed', String(k === i)); });
+      panels.forEach((p, k) => p.classList.toggle('is-active', k === i));
+    };
+    const schedule = () => {
+      clearTimeout(timer);
+      if (seen && !held && root.classList.contains('motion')) timer = setTimeout(() => { select((index + 1) % nodes.length); schedule(); }, 4200);
+    };
+    loopRestart = schedule;
+    nodes.forEach((n, k) => n.addEventListener('click', () => { select(k); schedule(); }));
+    const hold = on => () => { held = on; schedule(); };
+    loop.addEventListener('pointerenter', hold(true));
+    loop.addEventListener('pointerleave', hold(false));
+    loop.addEventListener('focusin', hold(true));
+    loop.addEventListener('focusout', e => { if (!loop.contains(e.relatedTarget)) hold(false)(); });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([e]) => { seen = e.isIntersecting; schedule(); }, { threshold: .35 }).observe(loop);
+    }
+  }
+
   /* ---------- the messenger looks at you ---------- */
   const messenger = document.querySelector('.messenger-svg');
   const pupils = messenger && messenger.querySelector('.pupils');
@@ -175,6 +216,8 @@
       chapters.forEach(c => { if (c.getBoundingClientRect().top < innerHeight) c.classList.add('in-view'); });
       if (flies) { placed = false; measure(); kick(); }
     }
+    onScrollGoggles();
+    if (loopRestart) loopRestart();
   }
   if (sw) {
     sw.addEventListener('click', () => {

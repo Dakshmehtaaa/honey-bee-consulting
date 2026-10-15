@@ -77,6 +77,12 @@ PROPS = {
         f'<path d="M134,160 L146,174" fill="none" stroke-width="7"/>'
         f'<circle cx="124" cy="148" r="13" fill="{LENS}"/>'
         f'<path d="M118,143 C120,140 124,139 127,140" fill="none" stroke="{IVORY}" stroke-width="3"/>', ""),
+    "lens_held": ("",
+        f'<path d="M136,124 C142,136 148,144 156,150" fill="none"/>'
+        f'<path d="M154,148 L164,162" fill="none" stroke="{FOREST}" stroke-width="9"/>'
+        f'<circle cx="174" cy="178" r="18" fill="{LENS}" fill-opacity=".85" stroke-width="6"/>'
+        f'<path d="M165,172 C167,167 172,164 177,165" fill="none" stroke="{IVORY}" stroke-width="3.5"/>'
+        f'<path d="M150,146 C154,144 158,146 158,150" fill="none" stroke-width="5"/>'),
     "sprout": (
         f'<path d="M120,166 C121,156 122,148 124,140" fill="none" stroke="{FOREST}" stroke-width="5"/>'
         f'<path d="M124,146 C132,136 144,138 146,144 C138,150 130,150 124,146 Z" fill="#8FB46A" stroke-width="4"/>'
@@ -85,6 +91,7 @@ PROPS = {
 
 # Headwear tells the crew apart at a glance; every hat is lighter than the ink head so it reads.
 CREST, CAP_CLAY, CAP_CLAY_D, BERET, BERET_D = "#FFFFFA", CLAY, "#9E4E2C", "#6FB0A8", "#3F7F78"
+STRAW, STRAW_D = "#F1D9A0", "#C9A45A"
 _CROWN = "M127,82 C124,62 139,51 154,51 C169,51 178,62 175,80 C160,74 141,74 127,82 Z"
 HATS = {
     # inspector's peaked cap: ivory crown, forest band and peak, gold badge
@@ -97,6 +104,11 @@ HATS = {
                   f'<path d="{_CROWN}" fill="{CAP_CLAY}"/>'
                   f'<path d="M151,52 C147,60 146,70 148,76 M157,52 C164,59 167,68 166,75" fill="none" stroke="{CAP_CLAY_D}" stroke-width="3"/>'
                   f'<circle cx="154" cy="51" r="3.6" fill="{CAP_CLAY_D}" stroke-width="3"/>'),
+    # gardener's straw sun hat: wide brim, forest band
+    "sunhat": (f'<path d="M108,78 C114,66 146,58 190,64 C198,66 198,74 190,76 C162,72 134,76 116,86 C108,88 104,84 108,78 Z" fill="{STRAW}"/>'
+               f'<path d="M128,72 C126,56 140,46 156,47 C172,48 180,58 178,68 C162,64 144,66 128,72 Z" fill="{STRAW}"/>'
+               f'<path d="M129,70 C144,64 162,62 178,66 L178,60 C162,57 144,58 130,64 Z" fill="{FOREST}" stroke-width="3.5"/>'
+               f'<path d="M122,80 C140,73 162,70 184,70" fill="none" stroke="{STRAW_D}" stroke-width="2.5"/>'),
     # storyteller's beret, tipped back over the head
     "beret": (f'<path d="M119,76 C112,62 132,50 155,51 C176,52 186,62 178,73 C163,82 132,85 119,76 Z" fill="{BERET}"/>'
               f'<path d="M126,70 C138,60 156,57 172,60" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width="3"/>'
@@ -165,6 +177,8 @@ def front_bee(halo=None):
         f'<circle cx="100" cy="80" r="27" fill="{INK}"/>'
         f'<circle cx="90" cy="80" r="8" fill="{IVORY}" stroke="none"/><circle cx="110" cy="80" r="8" fill="{IVORY}" stroke="none"/>'
         f'<g class="pupils"><circle cx="90" cy="82" r="4" fill="{INK}" stroke="none"/><circle cx="110" cy="82" r="4" fill="{INK}" stroke="none"/></g>'
+        f'<g class="smile"><path d="M89,92 C94,100 106,100 111,92" fill="none" stroke="{IVORY}" stroke-width="4"/>'
+        f'<circle cx="80" cy="92" r="4" fill="{CLAY}" stroke="none" opacity=".8"/><circle cx="120" cy="92" r="4" fill="{CLAY}" stroke="none" opacity=".8"/></g>'
         f'<path d="M78,128 L90,142 M122,128 L110,142" fill="none"/>'
         f'<rect x="80" y="136" width="40" height="28" rx="3" fill="{IVORY}" stroke-width="5"/>'
         f'<path d="M81,138 L100,152 L119,138" fill="none" stroke-width="4"/>'
@@ -249,6 +263,7 @@ CHAR = {
     "messenger": ("The Messenger", "Turns to face the visitor at Contact.", front_bee()),
     "inspector": ("The Inspector", "Ratings and certifications. Peaked cap, gold medal.", fly(bee(prop="medal", hat="peaked"), angle=-16)),
     "engineer": ("The Engineer", "Data, AI and automation. Cap on backwards, a cog in hand.", fly(bee(prop="cog", hat="backwards"), angle=-20)),
+    "gardener": ("The Gardener", "Impact projects. Straw sun hat, a seedling to plant.", fly(bee(prop="sprout", hat="sunhat"), angle=-16)),
     "storyteller": ("The Storyteller", "Reporting and narrative. Beret, and the report everyone reads.", fly(bee(prop="report", hat="beret"), angle=-14)),
 }
 for k, (_, _, g) in CHAR.items():
