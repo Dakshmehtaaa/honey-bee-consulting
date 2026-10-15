@@ -34,7 +34,7 @@ test('Email drafts preserve accents, line breaks and literal unsafe query charac
   const href = enquiryLink({ name: 'Élodie', company: 'A&B #Paris', need: 'RSE', message: 'Budget ?\nEncore & plus', language: 'fr' });
   assert.ok(href.startsWith('mailto:Dakshmehta077@gmail.com?subject='));
   const query = new URLSearchParams(href.split('?')[1]);
-  assert.equal(query.get('subject'), 'Honey Bee Consulting — échange avec A&B #Paris');
+  assert.equal(query.get('subject'), 'honeybees.consulting — échange avec A&B #Paris');
   assert.ok(query.get('body').includes('Budget ?\nEncore & plus'));
   assert.ok(query.get('body').includes('Bonjour Daksh'));
   assert.equal([...query.keys()].length, 2);

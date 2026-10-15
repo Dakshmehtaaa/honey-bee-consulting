@@ -19,7 +19,7 @@
   }
   function enquiryLink({ name, company, need, message, language }) {
     const fr = language === 'fr';
-    const subject = (fr ? 'Honey Bee Consulting — échange avec ' : 'Honey Bee Consulting — enquiry from ') + company.trim();
+    const subject = (fr ? 'honeybees.consulting — échange avec ' : 'honeybees.consulting — enquiry from ') + company.trim();
     const body = fr
       ? `Bonjour Daksh,\n\nJe m’appelle ${name.trim()} et je vous contacte pour ${company.trim()}.\n\nNotre besoin : ${need}\n\n${message.trim()}\n\nAu plaisir d’échanger,\n${name.trim()}`
       : `Hi Daksh,\n\nI’m ${name.trim()}, getting in touch from ${company.trim()}.\n\nWe would like help with: ${need}\n\n${message.trim()}\n\nBest,\n${name.trim()}`;
