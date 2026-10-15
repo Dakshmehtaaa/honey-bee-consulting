@@ -34,25 +34,24 @@ def bee_g(x, y, s, angle, prop=None, hat=None, flip=False, cls="bee-svg"):
 
 # ---------- hero: a comb hanging from a branch that grows in from the right edge ----------
 def hero():
-    """The comb on its branch. The art is anchored to the right edge of the screen, so the branch
+    """The hive (a straw skep) on its branch. The art is anchored to the right edge of the screen, so the branch
     runs off the right of the canvas; the meadow under it is a separate full-width strip (hero_land)."""
     W, H = 760, 700
     s = [f'<circle cx="470" cy="300" r="250" fill="#FBF1D3"/>', glow(470, 300, 330)]
     s.append(branch("M792,58 C700,62 600,86 500,100 S330,108 236,136",
                     sw=3.4, leaves=((300, 124, -150, 50), (372, 108, -28, 44), (640, 70, -150, 46), (712, 62, -24, 42), (540, 92, 18, 36))))
-    s.append(f'<path d="M398,118 C430,96 540,92 566,114 L552,130 H412 Z" fill="url(#g-wax)" stroke="{INK}" stroke-width="3.4" stroke-linejoin="round"/>')
-    cells = [(0, 0, "capped"), (1, 0, "honey"), (-1, 1, "honey"), (0, 1, "honey"), (1, 1, "capped"),
-             (-1, 2, "honey"), (0, 2, "empty"), (1, 2, "honey"), (0, 3, "honey"), (-1, 3, "capped"), (1, 3, "honey")]
-    s.append(f'<g class="hero-comb">{comb(442, 168, 50, cells, sw=3.6)}</g>')
-    s.append(drip(486, 445, 60, w=11))
-    s.append(drip(398, 432, 40, w=8))
+    # the hive: a straw skep hanging from the branch on a short twist of rope
+    s.append(f'<path d="M470,96 C466,104 474,110 470,124" fill="none" stroke="{INK}" stroke-width="5" stroke-linecap="round"/>')
+    s.append(f'<g class="hero-skep">{skep(470, 118, [46, 84, 110, 124, 124, 112, 90, 58], 50, gold=True, sw=3.6, door=(470, 330, 30, 27), step=42, cls="honey-fill")}</g>')
+    s.append(drip(512, 448, 56, w=11))
+    s.append(drip(430, 446, 36, w=8))
     # big flowers rising out of the meadow strip (their stems run under it)
     s.append(bloom(0, 150, 700, stem(152, 720, 146, 418, bend=-20, leaves=((.36, 1), (.58, -1)), leaf=34, sw=3.2) + petal_flower(146, 416, 62, n=12, rot=6, sw=3.4)))
     s.append(bloom(1, 60, 700, stem(60, 720, 56, 500, bend=16, leaves=((.45, 1),), leaf=26, sw=2.8) + petal_flower(56, 498, 36, n=11, rot=12, sw=2.8)))
     s.append(bloom(2, 286, 700, stem(286, 720, 292, 520, bend=18, leaves=((.5, -1),), leaf=28, sw=3) + cup_flower(292, 512, 40, sw=3)))
     s.append(bloom(3, 620, 700, stem(620, 720, 626, 560, bend=-12, leaves=((.5, 1),), leaf=24, sw=2.8) + cup_flower(626, 554, 30, fill="#E39A62", sw=2.8)))
     s.append(bloom(4, 716, 700, stem(716, 720, 710, 520, bend=10, leaves=((.4, -1),), leaf=26, sw=2.8) + petal_flower(710, 518, 40, n=11, rot=20, sw=2.8)))
-    s.append(f'<path class="trail" d="M184,390 C206,300 262,256 318,248 S386,252 392,276" fill="none" stroke="{FOREST}" '
+    s.append(f'<path class="trail" d="M184,390 C206,300 262,256 318,248 S440,300 452,322" fill="none" stroke="{FOREST}" '
              f'stroke-width="3" stroke-dasharray=".1 11" stroke-linecap="round" opacity=".8"/>')
     s.append(sparkles([(214, 328), (244, 290), (286, 266), (196, 360), (604, 220)], 3.2))
     s.append(f'<g class="hero-bee-back">{bee_g(640, 330, .34, 14, prop="pollen", flip=True)}</g>')
@@ -90,19 +89,53 @@ def goggles_ground():
 
 # ---------- the market: many competitors, clients pick the best ESG ----------
 COMPETE_GOLD = (742, 108, 3)
-COMPETE_HIVES = [(80, 64, 1), (196, 78, 2), (318, 66, 1), (440, 84, 2), (580, 72, 1), COMPETE_GOLD, (900, 80, 2), (1020, 66, 1), (1132, 78, 2)]
-GRADES = ["C", "D", "C", "B", "D", "A", "C", "D", "B"]
+COMPETE_HIVES = [(80, 76, 1), (196, 90, 2), (318, 78, 1), (440, 96, 2), (580, 82, 1), COMPETE_GOLD, (900, 92, 2), (1020, 78, 1), (1132, 90, 2)]
 
 
-def grade(cx, cy, letter, gold=False):
-    """An ESG rating badge. Gold for the leader; letters outlined so no font is needed."""
-    r = 20 if gold else 15
-    fill, line, ink = (POLLEN, INK, INK) if gold else ("#FFFFFA", MUTE_LINE, MUTE_DARK)
-    s = f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="{fill}" stroke="{line}" stroke-width="{3 if gold else 2.4}"/>'
-    s += words(letter, "font-3.ttf", 24 if gold else 17, cx, cy + (8.5 if gold else 6), ink, anchor="middle")
+SCORES = [38, 44, 41, 52, 35, 86, 47, 33, 49]
+
+
+def score_colour(v):
+    return LEAF_D if v >= 70 else ("#D9A229" if v >= 45 else CLAY)
+
+
+def score_tag(cx, yb, v, gold=False):
+    """An ESG score out of 100 with a bar under it, like a supplier scorecard. Low scores read amber
+    or clay, the winner green, so the comparison is clear at a glance."""
+    w, h, size = (112, 58, 30) if gold else (72, 42, 19)
+    x0, y0 = cx - w / 2, yb - h
+    line = INK if gold else MUTE_LINE
+    s = (f'<g stroke="{line}" stroke-width="{3 if gold else 2.2}" stroke-linejoin="round">'
+         f'<rect x="{x0:.1f}" y="{y0:.1f}" width="{w}" height="{h}" rx="{12 if gold else 10}" fill="#FFFFFA"/>'
+         f'<path d="M{cx-7},{yb} L{cx},{yb+8} L{cx+7},{yb}" fill="#FFFFFA"/>'
+         f'<path d="M{cx-8},{yb-1.5} H{cx+8}" stroke="#FFFFFA" stroke-width="4"/></g>')
+    ny = y0 + h * (.56 if gold else .58)
+    s += words(str(v), "font-3.ttf", size, cx, ny, INK if gold else MUTE_DARK, anchor="middle")
+    bw, by = w - (26 if gold else 20), yb - (13 if gold else 10)
+    s += (f'<rect x="{cx-bw/2:.1f}" y="{by}" width="{bw}" height="{6 if gold else 5}" rx="3" fill="#E7E7DC"/>'
+          f'<rect x="{cx-bw/2:.1f}" y="{by}" width="{bw*v/100:.1f}" height="{6 if gold else 5}" rx="3" fill="{score_colour(v)}"/>')
     if gold:
-        s += f'<path d="M{cx+14},{cy-22} l3,7 7,1 -5,5 1,7 -6,-3 -6,3 1,-7 -5,-5 7,-1 Z" fill="#FFFFFA" stroke="{INK}" stroke-width="2"/>'
+        lx, ly = x0 + 10, y0 + 8
+        s += (f'<path d="M{lx},{ly+20} C{lx},{ly+8} {lx+8},{ly} {lx+20},{ly} C{lx+20},{ly+12} {lx+12},{ly+20} {lx},{ly+20} Z" fill="{LEAF}" stroke="{INK}" stroke-width="2.2"/>'
+              f'<path d="M{lx+2},{ly+18} L{lx+12},{ly+8}" stroke="{INK}" stroke-width="2" fill="none"/>')
     return s
+
+
+def ground_skep(cx, g, w, tall, gold=False):
+    """A skep standing on a little board; returns (svg, top y)."""
+    n = 3 + tall
+    rh = w * .25
+    step = rh * .8
+    # a dome: narrow at the top, widest at the bottom ring
+    halves = [w / 2 * (0.42 + 0.58 * math.sqrt((k / (n - 1)) * (2 - k / (n - 1)))) for k in range(n)]
+    top = g - 10 - step * (n - 1) - rh
+    sw = 3 if gold else 2.4
+    board = (f'<path d="M{cx-w*.62:.1f},{g-10} H{cx+w*.62:.1f} L{cx+w*.56:.1f},{g} H{cx-w*.56:.1f} Z" '
+             f'fill="{HONEY_D if gold else MUTE_SIDE}" stroke="{INK if gold else MUTE_LINE}" stroke-width="{sw}" stroke-linejoin="round"/>')
+    cap = (f'<path d="M{cx-halves[0]*.55:.1f},{top+rh*.3:.1f} Q{cx},{top-rh*.55:.1f} {cx+halves[0]*.55:.1f},{top+rh*.3:.1f}" '
+           f'fill="{POLLEN if gold else MUTE_TOP}" stroke="{INK if gold else MUTE_LINE}" stroke-width="{sw}"/>')
+    door = (cx, g - 10 - rh * .42, w * .11, rh * .3)
+    return board + cap + skep(cx, top, halves, rh, gold=gold, sw=sw, door=door, step=step), top - rh * .3
 
 
 def compete():
@@ -110,20 +143,20 @@ def compete():
     s = [hill(f"M0,{H} V342 C200,322 420,330 600,340 C800,350 1000,326 {W},334 V{H} Z", "url(#g-hill-a)"),
          hill(f"M0,{H} V386 C240,370 480,378 700,390 C900,400 1060,384 {W},388 V{H} Z", "url(#g-hill-b)")]
     gx, gw, gb = COMPETE_GOLD
-    s.append(f'<g class="lit">{glow(gx + 10, g - 150, 230)}</g>')
-    tops = {}
+    s.append(f'<g class="lit">{glow(gx, g - 150, 230)}</g>')
     for i, (x, w, boxes) in enumerate(COMPETE_HIVES):
-        top = g - w * (.16 + .07 + .42 * boxes + .17) - w * .16 - 14
-        tops[i] = top
-        badge = grade(x + w * .12, top - 4, GRADES[i]) if (x, w, boxes) != COMPETE_GOLD else ""
-        s.append(f'<g class="rise" style="--i:{i}">{shadow(x + w * .15, g + 2, w * .8, w * .09)}{box_hive(x, g, w, boxes, sw=2.6)}{badge}</g>')
-    s.append(f'<g class="lit">{trail("M20,96 C200,40 430,60 560,150 S716,300 728,334", sw=2.6, gap=12)}'
-             f'{trail("M1180,90 C1040,44 900,96 830,176 S760,300 756,334", sw=2.6, gap=12)}</g>')
-    s.append(f'<g class="lit">{box_hive(gx, g, gw, gb, gold=True, sw=3)}{grade(gx + gw * .12, tops[5] - 8, "A", gold=True)}</g>')
+        if (x, w, boxes) == COMPETE_GOLD:
+            continue
+        art, top = ground_skep(x, g, w, boxes)
+        s.append(f'<g class="rise" style="--i:{i}">{shadow(x, g + 2, w * .7, w * .08)}{art}{score_tag(x, top - 10, SCORES[i])}</g>')
+    s.append(f'<g class="lit">{trail("M20,96 C200,40 430,60 560,150 S700,290 716,330", sw=2.6, gap=12)}'
+             f'{trail("M1180,90 C1040,44 900,96 830,176 S774,290 768,330", sw=2.6, gap=12)}</g>')
+    art, top = ground_skep(gx, g, gw * 1.3, 2, gold=True)
+    s.append(f'<g class="lit">{art}{score_tag(gx, top - 12, SCORES[5], gold=True)}</g>')
     for i, (x, r, kind) in enumerate([(660, 20, "d"), (688, 15, "c"), (812, 18, "d"), (842, 13, "d"), (628, 12, "d")]):
         head = petal_flower(x, g - 8 - r * 1.6, r, n=10, sw=2) if kind == "d" else cup_flower(x, g - 8 - r * 1.6, r, sw=2)
         s.append(f'<g class="lit">{bloom(i, x, g + 6, stem(x, g + 8, x, g - 8 - r * 1.6, bend=4, leaves=((.45, 1),), leaf=r * .8, sw=2) + head)}</g>')
-    for i, (x, y, sc, a, flip) in enumerate([(286, 62, .3, -6, False), (548, 140, .32, 18, False), (1010, 70, .3, -6, True), (846, 160, .32, 18, True)]):
+    for i, (x, y, sc, a, flip) in enumerate([(286, 52, .3, -6, False), (560, 120, .32, 18, False), (1010, 60, .3, -6, True), (880, 130, .32, 18, True)]):
         s.append(f'<g class="fly-in" style="--i:{i}">{bee_g(x, y, sc, a, prop="pollen", flip=flip)}</g>')
     return svg_el(f"0 0 {W} {H}", "".join(s), "compete-svg")
 

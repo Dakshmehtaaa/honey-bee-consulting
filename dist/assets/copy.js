@@ -268,10 +268,10 @@ window.HONEY_FRENCH = {
   "story.compete.label": "Le marché",
   "story.compete.t1": "Beaucoup de concurrents.",
   "story.compete.t2": "Les clients choisissent le meilleur en ESG.",
-  "story.compete.body": "Votre marché est plein de concurrents qui se ressemblent. Les clients, B2B ou B2C, comparent leur performance ESG, et tôt ou tard ils choisissent le meilleur.",
+  "story.compete.body": "Votre marché est plein de concurrents qui se ressemblent. Les clients, B2B ou B2C, comparent leurs scores ESG, et tôt ou tard ils choisissent le meilleur.",
   "story.compete.b2b": "Clients B2B",
   "story.compete.b2c": "Clients B2C",
-  "story.compete.chosen": "Meilleure performance ESG",
+  "story.compete.chosen": "Meilleur score ESG, choisi",
   "story.compete.p1.t": "Les clients B2B vérifient.",
   "story.compete.p1.b": "Questionnaires ESG et notations comme EcoVadis décident désormais qui entre dans la liste des fournisseurs.",
   "story.compete.p2.t": "Les appels d’offres notent.",
@@ -367,7 +367,8 @@ window.HONEY_FRENCH = {
   "story.help.s4.role": "La Jardinière",
   "story.help.s4.t": "Projets d’impact environnemental et social",
   "story.help.s4.b": "Nous planifions et menons les projets qui réduisent votre empreinte environnementale et créent une vraie valeur sociale, avec des responsables, des budgets et des résultats à montrer.",
-  "story.help.s4.logos": "Référentiels et outils pour livrer"
+  "story.help.s4.logos": "Référentiels et outils pour livrer",
+  "story.compete.key": "Chaque ruche est un concurrent. Le chiffre est son score ESG sur 100, le type de note qu’EcoVadis donne aux fournisseurs."
 };
 window.HONEY_ENGLISH = {
   "skip": "Skip to content",
@@ -385,10 +386,11 @@ window.HONEY_ENGLISH = {
   "story.compete.label": "The market",
   "story.compete.t1": "Many competitors.",
   "story.compete.t2": "Clients pick the best ESG.",
-  "story.compete.body": "Your market is full of competitors that look the same. Clients, B2B or B2C, compare their ESG performance, and sooner or later they choose the best one.",
+  "story.compete.body": "Your market is full of competitors that look the same. Clients, B2B or B2C, compare their ESG scores, and sooner or later they choose the best one.",
   "story.compete.b2b": "B2B clients",
   "story.compete.b2c": "B2C clients",
-  "story.compete.chosen": "Best ESG performance",
+  "story.compete.chosen": "Best ESG score, chosen",
+  "story.compete.key": "Each hive is a competitor. The number is its ESG score out of 100, the kind of rating EcoVadis gives suppliers.",
   "story.compete.p1.t": "B2B clients check.",
   "story.compete.p1.b": "ESG questionnaires and ratings like EcoVadis now decide who gets on the supplier list.",
   "story.compete.p2.t": "Tenders score it.",

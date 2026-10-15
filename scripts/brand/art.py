@@ -80,6 +80,29 @@ def box_hive(cx, ground, w, boxes=2, gold=False, sw=2.4, door=True):
     return "".join(s)
 
 
+def skep(cx, top, halves, rh, gold=False, sw=2.4, door=None, step=None, cls=""):
+    """A straw skep: stacked rounded rings. halves are the half-widths from the top ring down, so
+    the same drawing hangs from a branch (narrow top and bottom) or stands as a dome (wide bottom).
+    Rings are drawn top first so each lower ring overlaps the one above. door = (x, y, rx, ry)."""
+    step = step or rh * .9
+    line = INK if gold else MUTE_LINE
+    fill = "url(#g-front)" if gold else "url(#g-mute)"
+    hi = "#FFF3C4" if gold else "#FFFFFA"
+    s = [f'<g stroke="{line}" stroke-width="{sw}" stroke-linejoin="round" stroke-linecap="round">']
+    for i, a in enumerate(halves):
+        y = top + i * step
+        g = f' class="{cls}" style="--i:{i}"' if cls else ""
+        s.append(f'<g{g}><rect x="{cx-a:.1f}" y="{y:.1f}" width="{2*a:.1f}" height="{rh:.1f}" rx="{rh/2:.1f}" fill="{fill}"/>'
+                 f'<path d="M{cx-a*.62:.1f},{y+rh*.32:.1f} Q{cx-a*.4:.1f},{y+rh*.18:.1f} {cx-a*.12:.1f},{y+rh*.24:.1f}" fill="none" stroke="{hi}" stroke-width="{sw*1.1:.1f}" opacity=".9"/></g>')
+    if door:
+        x, y, rx, ry = door
+        if gold:
+            s.append(f'<ellipse cx="{x}" cy="{y}" rx="{rx*1.22:.1f}" ry="{ry*1.2:.1f}" fill="{AMBER}"/>')
+        s.append(f'<ellipse cx="{x}" cy="{y}" rx="{rx}" ry="{ry}" fill="{INK if gold else MUTE_DARK}"/>')
+    s.append('</g>')
+    return "".join(s)
+
+
 def petal_flower(cx, cy, r, n=11, rot=0, sw=1.8, centre=True, line=INK):
     """A daisy head seen slightly from above: long soft petals, a domed pollen centre."""
     s = [f'<g stroke="{line}" stroke-width="{sw}" stroke-linejoin="round">']
