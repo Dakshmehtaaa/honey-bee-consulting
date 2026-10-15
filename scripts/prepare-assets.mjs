@@ -9,12 +9,7 @@ if (generated !== '--logos-only') {
   await sharp(generated).resize({ width: 1200 }).webp({ quality: 84 }).toFile(path.join(assets, 'bee-meadow.webp'));
   await sharp(portrait).resize({ width: 850 }).webp({ quality: 88 }).toFile(path.join(assets, 'daksh.webp'));
 }
-const mark = await fs.readFile(path.join(assets, 'bee-mark.svg'), 'utf8');
-await sharp(Buffer.from(mark)).resize(512, 512).png().toFile(path.join(assets, 'bee-mark.png'));
-const paths = mark.match(/<g[\s\S]*<\/g>/)[0];
-const lockup = `<svg xmlns="http://www.w3.org/2000/svg" width="660" height="200" viewBox="0 0 660 200"><g transform="translate(24 29) scale(1.55)">${paths}</g><text x="200" y="108" fill="#24251f" font-family="Georgia,serif" font-size="77" letter-spacing="-3">honey bee</text><text x="204" y="144" fill="#24251f" font-family="Arial,sans-serif" font-size="17" letter-spacing="6">CONSULTING</text></svg>`;
-await fs.writeFile(path.join(assets, 'honey-bee-logo.svg'), lockup);
-await sharp(Buffer.from(lockup)).png().toFile(path.join(assets, 'honey-bee-logo.png'));
-const cover = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><rect width="1200" height="630" fill="#fbfaf5"/><rect x="905" width="295" height="630" fill="#f3c544"/><g transform="translate(64 61) scale(1.1)">${paths}</g><text x="181" y="117" fill="#24251f" font-family="Georgia,serif" font-size="48">honey bee</text><text x="184" y="145" fill="#24251f" font-family="Arial,sans-serif" font-size="11" letter-spacing="4">CONSULTING</text><text x="75" y="305" fill="#24251f" font-family="Georgia,serif" font-size="72">A responsible business.</text><text x="75" y="405" fill="#657454" font-family="Georgia,serif" font-style="italic" font-size="72">A stronger position.</text><text x="78" y="535" fill="#24251f" font-family="Arial,sans-serif" font-size="23">CSR &amp; ESG consulting · Daksh Mehta · Paris</text><g transform="translate(945 225) scale(2.2)">${paths}</g></svg>`;
-await sharp(Buffer.from(cover)).png().toFile(path.join(assets, 'social-cover.png'));
-console.log(generated === '--logos-only' ? 'Prepared vector/PNG logos and social cover.' : 'Prepared bee image, founder portrait, vector/PNG logos and social cover.');
+// Logos are drawn by scripts/brand/bees.py (vector, text outlined). This only exports PNG copies.
+await sharp(path.join(assets, 'bee-mark-colour.svg')).resize(512, 512).png().toFile(path.join(assets, 'bee-mark.png'));
+await sharp(path.join(assets, 'honey-bee-logo.svg')).resize({ width: 1200 }).png().toFile(path.join(assets, 'honey-bee-logo.png'));
+console.log(generated === '--logos-only' ? 'Exported PNG logos.' : 'Prepared bee image, founder portrait and PNG logos.');

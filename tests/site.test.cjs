@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '../dist');
-const pages = ['index.html', 'fr.html', 'privacy.html'];
+const pages = ['index.html', 'fr.html', 'services.html', 'privacy.html'];
 test('Published HTML references resolve to real assets and local anchors', () => {
   for (const file of pages) {
     const html = fs.readFileSync(path.join(root, file), 'utf8');

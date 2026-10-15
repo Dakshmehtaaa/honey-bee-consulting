@@ -1,11 +1,13 @@
-# Honey Bee Consulting
+# honeybees.consulting
 
 A practical CSR and ESG consulting website for Daksh Mehta. Two audience paths: smaller businesses building their foundations and established teams seeking focused project support.
 
-**Public website:** https://dakshmehtaaa.github.io/honey-bee-consulting/
-**French homepage:** https://dakshmehtaaa.github.io/honey-bee-consulting/fr.html
+**Public website:** https://honeybees.consulting/ (GitHub Pages custom domain; `dist/CNAME`)
+**French homepage:** https://honeybees.consulting/fr.html
 
 ## The experience
+
+The homepage (`dist/index.html`) is a short scroll story with very little text: the hive (the business), the meadow (nature and people), the bees (the work in between), the honey (why CSR pays back), three ways we help, Daksh, and contact. A guide bee follows the visitor from chapter to chapter, landing on `[data-perch]` points (`dist/assets/story.js`). A short loader plays once per browser session. Calm mode (header switch, remembered) and `prefers-reduced-motion` turn all of that off, and every chapter has a finished resting state without JavaScript. The detailed, text-rich site lives one click away on `dist/services.html`:
 
 - Full-image bee hero, with gentle motion, a pause control and reduced-motion support.
 - Portfolio-style service cards with square illustrations, short copy, framework marks and mobile swipe/arrow navigation. Deliverables open on request.
@@ -37,7 +39,9 @@ No package installation is needed to view or serve the website or run those chec
 
 ## Editing
 
-- **English content:** `dist/index.html` and `dist/privacy.html`.
+- **English content:** `dist/index.html` (story), `dist/services.html` (details) and `dist/privacy.html`.
+- **Story styling and motion:** `dist/assets/story.css` and `dist/assets/story.js`. Animations only add start states under `.motion`, so never hide content outside that class.
+- **Logo and bee characters:** `scripts/brand/bees.py` (see `docs/brand-assets.md`).
 - **French content:** `dist/assets/fr.json`. Preserve the scope and limitations of the English copy.
 - **Dynamic tools and labels:** `dist/assets/app.js`.
 - **Calculator and draft logic:** `dist/assets/business-core.js`.
@@ -52,7 +56,7 @@ node scripts/compile-copy.mjs
 node --test tests/*.test.cjs
 ```
 
-Do not edit `dist/fr.html` or `dist/assets/copy.js` directly; they are generated from the source copy.
+`dist/fr.html` is the static French story page. Do not edit `dist/fr.html` or `dist/assets/copy.js` directly; they are generated from the source copy.
 
 ## Publishing
 

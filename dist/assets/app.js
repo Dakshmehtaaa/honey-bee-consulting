@@ -5,9 +5,9 @@
   const originalAttributes = {};
   const ui = {
     en: {
-      title: 'Honey Bee Consulting — CSR & ESG that works for your business',
+      title: 'Services & details · honeybees.consulting',
       description: 'Practical CSR and ESG consulting by Daksh Mehta. Build your foundations, strengthen buyer confidence, and turn sustainability plans into useful work. Paris. English and French.',
-      openMenu: 'Open menu', closeMenu: 'Close menu', home: 'Honey Bee Consulting, home',
+      openMenu: 'Open menu', closeMenu: 'Close menu', home: 'honeybees.consulting, home',
       pauseMotion: 'Pause image motion', resumeMotion: 'Resume image motion',
       month: 'months', noCost: 'No upfront cost', noPayback: 'No payback', invalid: 'Complete all inputs with valid, non-negative values. The saving rate must be between 0 and 100%.',
       noPaybackDetail: 'Net annual savings are zero or negative: there is no simple payback under these assumptions.',
@@ -17,9 +17,9 @@
       csv: 'assets/evidence-register-en.csv'
     },
     fr: {
-      title: french['metadata.title'] || 'Honey Bee Consulting — Une RSE utile à votre entreprise',
+      title: french['metadata.title'] || 'honeybees.consulting — Une RSE utile à votre entreprise',
       description: french['metadata.description'] || 'Conseil pratique en RSE et ESG par Daksh Mehta. Des fondations solides, des preuves crédibles et des projets qui avancent. Paris. Français et anglais.',
-      openMenu: 'Ouvrir le menu', closeMenu: 'Fermer le menu', home: 'Honey Bee Consulting, accueil',
+      openMenu: 'Ouvrir le menu', closeMenu: 'Fermer le menu', home: 'honeybees.consulting, accueil',
       pauseMotion: 'Mettre l’image en pause', resumeMotion: 'Animer l’image',
       month: 'mois', noCost: 'Sans coût initial', noPayback: 'Pas de retour', invalid: 'Renseignez tous les champs avec des valeurs valides et positives ou nulles. Le taux d’économie doit être compris entre 0 et 100 %.',
       noPaybackDetail: 'Les économies annuelles nettes sont nulles ou négatives : aucun délai de retour simple ne peut être calculé avec ces hypothèses.',
@@ -140,8 +140,8 @@
       document.querySelector('meta[property="og:title"]').content = ui[language].title;
       document.querySelector('meta[property="og:description"]').content = ui[language].description;
     } else {
-      document.title = language === 'fr' ? 'Informations du site et confidentialité — Honey Bee Consulting' : 'Site information & privacy — Honey Bee Consulting';
-      document.querySelector('meta[name="description"]').content = language === 'fr' ? 'Éditeur, contact, traitement des données et informations sur les images du site Honey Bee Consulting.' : 'Publisher, contact, data handling and image information for Honey Bee Consulting.';
+      document.title = language === 'fr' ? 'Informations du site et confidentialité — honeybees.consulting' : 'Site information & privacy — honeybees.consulting';
+      document.querySelector('meta[name="description"]').content = language === 'fr' ? 'Éditeur, contact, traitement des données et informations sur les images du site honeybees.consulting.' : 'Publisher, contact, data handling and image information for honeybees.consulting.';
     }
     const download = document.getElementById('template-download');
     if (download) download.href = ui[language].csv;

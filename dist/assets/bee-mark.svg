@@ -1,7 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <g fill="#24251f">
-    <circle cx="50" cy="23" r="6.5"/>
-    <path d="M43 44c-13-1-24-7-24-16 0-6 5-9 11-6 8 4 12 12 13 22Zm14 0c13-1 24-7 24-16 0-6-5-9-11-6-8 4-12 12-13 22Z"/>
-    <path d="M50 37c-8 0-12 7-12 17h24c0-10-4-17-12-17ZM38 60h24c-1 11-7 20-12 24-5-4-11-13-12-24Z"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><g transform="translate(-8,4) scale(1.08) rotate(-28 100 92)"><clipPath id="abd3"><path d="M18,114 C38,80 86,73 105,92 C117,104 115,124 101,134 C81,150 42,148 18,114 Z"/></clipPath><g fill="#17291F" stroke="#F7F6EE" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><path d="M112,90 C78,94 40,76 32,42 C72,32 108,56 112,90 Z"/><path d="M118,86 C96,62 94,26 120,4 C148,30 144,66 118,86 Z"/><path d="M18,114 C38,80 86,73 105,92 C117,104 115,124 101,134 C81,150 42,148 18,114 Z"/><path d="M54,62 Q39,112 53,160 L67,160 Q53,112 68,62 Z M80,62 Q66,112 80,160 L94,160 Q80,112 94,62 Z" fill="#F7F6EE" stroke="none" clip-path="url(#abd3)"/><path d="M96,104 C96,86 110,78 124,80 C130,72 140,70 150,72 C166,74 174,88 170,102 C166,114 154,120 142,116 C138,126 128,132 116,130 C104,128 96,118 96,104 Z" stroke-width="7"/><path d="M152,74 C154,58 162,48 178,48" fill="none" stroke="#17291F" stroke-width="8"/><circle cx="157" cy="90" r="5" fill="#F7F6EE" stroke="none"/></g></g></svg>

@@ -7,7 +7,7 @@ const attributes = {};
 function decode(text) { return text.replaceAll('&amp;', '&').replaceAll('&quot;', '"').replaceAll('&#39;', "'").replaceAll('&lt;', '<').replaceAll('&gt;', '>'); }
 function encode(text) { return text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;'); }
 const tagPattern = /(<([a-z][\w-]*)\b[^>]*\bdata-i18n="([^"]+)"[^>]*>)([^<]*)(<\/\2>)/gi;
-for (const name of ['index.html', 'privacy.html']) {
+for (const name of ['index.html', 'services.html', 'privacy.html']) {
   const html = await fs.readFile(path.join(root, 'dist', name), 'utf8');
   for (const match of html.matchAll(tagPattern)) english[match[3]] = decode(match[4]);
   for (const [key, attribute] of [['data-i18n-aria', 'aria-label'], ['data-i18n-alt', 'alt'], ['data-i18n-placeholder', 'placeholder']]) {
@@ -29,11 +29,11 @@ for (const [key, attribute] of [['data-i18n-aria', 'aria-label'], ['data-i18n-al
     return id && french[id[1]] ? tag.replace(new RegExp('\\b' + attribute + '="[^"]*"'), attribute + '="' + encode(french[id[1]]) + '"') : tag;
   });
 }
-html = html.replace(/<title>[^<]*<\/title>/, '<title>' + encode(french['metadata.title']) + '</title>');
-html = html.replace(/(<meta name="description" content=")[^"]*/, '$1' + encode(french['metadata.description']));
-html = html.replace(/(<meta property="og:title" content=")[^"]*/, '$1' + encode(french['metadata.title']));
-html = html.replace(/(<meta property="og:description" content=")[^"]*/, '$1' + encode(french['metadata.description']));
-html = html.replace('rel="canonical" href="https://dakshmehtaaa.github.io/honey-bee-consulting/"', 'rel="canonical" href="https://dakshmehtaaa.github.io/honey-bee-consulting/fr.html"');
-html = html.replace('property="og:url" content="https://dakshmehtaaa.github.io/honey-bee-consulting/"', 'property="og:url" content="https://dakshmehtaaa.github.io/honey-bee-consulting/fr.html"');
+// fr.html is the static French version of the storytelling homepage.
+html = html.replace(/<title>[^<]*<\/title>/, '<title>' + encode(french['story.meta.title']) + '</title>');
+html = html.replace(/(<meta name="description" content=")[^"]*/, '$1' + encode(french['story.meta.description']));
+html = html.replace(/(<meta property="og:title" content=")[^"]*/, '$1' + encode(french['story.meta.title']));
+html = html.replace('rel="canonical" href="https://honeybees.consulting/"', 'rel="canonical" href="https://honeybees.consulting/fr.html"');
+html = html.replace('property="og:url" content="https://honeybees.consulting/"', 'property="og:url" content="https://honeybees.consulting/fr.html"');
 await fs.writeFile(path.join(root, 'dist/fr.html'), html);
 console.log('Compiled French copy: ' + Object.keys(french).length + ' entries and static French homepage.');
