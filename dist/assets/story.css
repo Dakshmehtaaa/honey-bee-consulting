@@ -127,7 +127,7 @@ h2 em,h1 em{font-style:italic;color:var(--forest)}
 .motion .trail{animation:dash 14s linear infinite}
 
 /* ---------- hero ---------- */
-.hero{--land:clamp(110px,12vw,190px);padding-block:clamp(28px,5vh,60px) calc(var(--land) * .55);min-height:calc(100svh - var(--top));display:flex;align-items:center;overflow-x:clip}
+.hero{--land:clamp(110px,12vw,190px);padding-block:clamp(28px,5vh,60px) calc(var(--land) * .8);min-height:calc(100svh - var(--top));display:flex;align-items:center;overflow-x:clip}
 .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,4vw,60px);align-items:center}
 .hero h1{font-family:var(--serif);font-size:clamp(52px,7.2vw,106px);line-height:.95;letter-spacing:-.02em}
 .hero h1 .line{display:block}
@@ -162,6 +162,8 @@ h2 em,h1 em{font-style:italic;color:var(--forest)}
 .motion .spark{animation:twinkle 2.4s ease-in-out calc(var(--i)*.4s) infinite}
 .motion .hero-bee-back{animation:bob 3.2s ease-in-out infinite}
 .motion .hero-bee-back .wing{animation:flap .14s ease-in-out infinite alternate}
+/* the copy sits above the meadow strip so the meadow can never cover the buttons */
+.hero-copy{position:relative;z-index:3}
 .hero-copy > *{transition:opacity .8s var(--ease),transform .8s var(--ease)}
 .motion .hero:not(.in-view) .hero-copy > *{opacity:0;transform:translateY(18px)}
 .hero-copy > :nth-child(2){transition-delay:.12s}.hero-copy > :nth-child(3){transition-delay:.24s}
@@ -177,6 +179,9 @@ h2 em,h1 em{font-style:italic;color:var(--forest)}
 .tag-chosen{left:62%;top:30%;transform:translate(-50%,-100%);transition:opacity .6s 1.6s,transform .6s var(--ease-pop) 1.6s}
 .motion .compete:not(.in-view) .tag-chosen{opacity:0;transform:translate(-50%,-70%)}
 .perch-compete{left:61%;top:43%}
+.compete-key{display:flex;align-items:center;gap:14px;margin-top:14px;font-size:15px;color:var(--muted)}
+.key-bar{flex:none;display:grid;gap:4px;width:56px}
+.key-bar i{display:block;height:5px;border-radius:3px;background:linear-gradient(90deg,var(--c) var(--v),#E2E2D6 var(--v))}
 .proof{list-style:none;padding:0;margin-top:clamp(20px,4vh,40px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 .proof li{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:22px 24px;color:var(--muted);transition:opacity .7s var(--ease) calc(var(--i)*120ms + .4s),translate .7s var(--ease) calc(var(--i)*120ms + .4s)}
 .proof b{display:block;font:400 clamp(24px,2.2vw,30px)/1.1 var(--serif);color:var(--ink);margin-bottom:6px}
