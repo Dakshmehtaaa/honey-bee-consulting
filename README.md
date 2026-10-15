@@ -1,25 +1,20 @@
 # honeybees.consulting
 
-A practical CSR and ESG consulting website for Daksh Mehta. Two audience paths: smaller businesses building their foundations and established teams seeking focused project support.
+An ESG and CSR consulting website for companies, by Daksh Mehta. One message, said plainly: sooner or later your customers choose the more sustainable supplier, so turn ESG into your competitive edge.
 
 **Public website:** https://honeybees.consulting/ (GitHub Pages custom domain; `dist/CNAME`)
 **French homepage:** https://honeybees.consulting/fr.html
 
-## The experience
+## The site
 
-The homepage (`dist/index.html`) is a short scroll story with very little text: the hive (the business), the meadow (nature and people), the bees (the work in between), the honey (why CSR pays back), three ways we help, Daksh, and contact. A guide bee follows the visitor from chapter to chapter, landing on `[data-perch]` points (`dist/assets/story.js`). A short loader plays once per browser session. Calm mode (header switch, remembered) and `prefers-reduced-motion` turn all of that off, and every chapter has a finished resting state without JavaScript. The detailed, text-rich site lives one click away on `dist/services.html`:
+- `dist/index.html`, the homepage, is a short illustrated scroll in five chapters: the hero (turn ESG into your competitive edge), the market (many hives, your customers pick one), beyond compliance (don't just comply, feed your hive), three ways we help (the Inspector, the Engineer and the Storyteller, each with the frameworks and tools they use) and contact. A guide bee flies from chapter to chapter, landing on `[data-perch]` points (`dist/assets/story.js`). A short loader plays once per browser session. Calm mode (header switch, remembered) and `prefers-reduced-motion` turn all motion off, and every chapter has a finished resting state without JavaScript.
+- `dist/contact.html`: the enquiry form, which prepares an email draft in the visitor's own email app, plus direct contact details.
+- `dist/resources.html`: free frameworks and tools to get started, filterable by stage (Measure, Decide, Disclose, Act), taken from the resources on Daksh's personal website.
+- `dist/privacy.html`: publisher, data handling and the newsletter.
+- `dist/v1.html`: the first version of the site, kept as an archive (noindex, linked from the footer, with a banner back to the current site). `dist/services.html` redirects there so old links still work.
+- Every page has the same header (Why ESG, How we help, Resources, Contact) and footer, with a newsletter sign-up that collects email addresses only (see `backend/newsletter/`).
 
-- Full-image bee hero, with gentle motion, a pause control and reduced-motion support.
-- Portfolio-style service cards with square illustrations, short copy, framework marks and mobile swipe/arrow navigation. Deliverables open on request.
-- An interactive buyer-request comparison: organise evidence, measure an action and assign an owner. A short replay shows the preparation building, with pause and reduced-motion support.
-- Concrete business benefits and measures, available on request, with clear limits on commercial outcomes.
-- A priority guide and cost-saving scenario calculator. Tools open on request and run locally.
-- An evidence-register template in English and French, without an email gate.
-- Founder background, useful official resources and an enquiry form that prepares an email draft.
-- English and French, including a static French homepage for search and direct sharing.
-- Original vector bee logo, transparent PNG exports, self-hosted fonts and a privacy page.
-
-There are no analytics, remote form submissions, paid services or runtime dependencies. Only the language preference is stored by the site. Visitors review and send their enquiry from their own email application.
+English and French throughout, including a static French homepage for search and direct sharing. No analytics, advertising pixels or tracking cookies. The only data the site sends anywhere is a newsletter sign-up, and only when someone subscribes.
 
 ## Preview and checks
 
@@ -39,19 +34,19 @@ No package installation is needed to view or serve the website or run those chec
 
 ## Editing
 
-- **English content:** `dist/index.html` (story), `dist/services.html` (details) and `dist/privacy.html`.
-- **Story styling and motion:** `dist/assets/story.css` and `dist/assets/story.js`. Animations only add start states under `.motion`, so never hide content outside that class.
-- **Logo and bee characters:** `scripts/brand/bees.py` (see `docs/brand-assets.md`).
-- **French content:** `dist/assets/fr.json`. Preserve the scope and limitations of the English copy.
-- **Dynamic tools and labels:** `dist/assets/app.js`.
-- **Calculator and draft logic:** `dist/assets/business-core.js`.
-- **Design:** `dist/assets/style.css` and `dist/assets/experience.css`.
-- **Service navigation and comparison:** `dist/assets/experience.js`.
-- **Contact:** search the HTML and `business-core.js` for `Dakshmehta077@gmail.com` when replacing it with the future business address.
+- **English content:** `dist/index.html`, `dist/contact.html`, `dist/resources.html` and `dist/privacy.html`.
+- **Shared header, footer and drawings:** don't edit the blocks between `<!--part:…-->` / `<!--art:…-->` markers by hand. The header, footer and head script come from `scripts/build-pages.py`; the drawings from `scripts/brand/site_art.py` (scene helpers in `scripts/brand/art.py`, bees in `scripts/brand/bees.py`). Re-run `python3 scripts/build-pages.py` after changing any of them (`--preview DIR` also writes each drawing as its own SVG).
+- **Styling and motion:** `dist/assets/story.css` and `dist/assets/story.js`. Animations only add start states under `.motion`, so never hide content outside that class.
+- **Framework and tool logos:** `dist/assets/logos/`. On the homepage each logo has its own `--h` (start from 34px × aspect^-0.42, then nudge thin marks up and solid ones down by eye); on the resources page each has its own `--mw`.
+- **French content:** `dist/assets/fr.json`. Every `data-i18n` key needs a French entry (the tests check it).
+- **Newsletter and email drafts:** `dist/assets/business-core.js` (`NEWSLETTER_URL`, `subscription`, `enquiryLink`).
+- **V1 archive:** `dist/v1.html` with `dist/assets/app.js`, `experience.js`, `style.css` and `experience.css`. Leave it as it is.
+- **Contact:** search the HTML and `business-core.js` for `dakshmehta077@gmail.com` (any case) when replacing it with the future business address.
 
-After changing English or French copy, regenerate the shared dictionary and the static French homepage:
+After changing pages, art or copy, rebuild and check:
 
 ```sh
+python3 scripts/build-pages.py
 node scripts/compile-copy.mjs
 node --test tests/*.test.cjs
 ```
@@ -60,7 +55,7 @@ node --test tests/*.test.cjs
 
 ## Publishing
 
-GitHub Actions publishes the checked `dist/` directory when `main` changes. The workflow also runs the business-tool, local-link and translation checks. `.openai/hosting.json` records the separate private Sites preview identity and its static output directory.
+GitHub Actions publishes the checked `dist/` directory when `main` changes. The workflow also runs the business-logic, newsletter, local-link, id and translation checks. The newsletter backend in `backend/newsletter/` is not published with the site; it runs as a Google Apps Script (setup in its README). `.openai/hosting.json` records the separate private Sites preview identity and its static output directory.
 
 ## Sources and assets
 

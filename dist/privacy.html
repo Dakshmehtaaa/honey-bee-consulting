@@ -1,24 +1,132 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Site information & privacy — honeybees.consulting</title>
-  <meta name="description" content="Publisher, contact, data handling and image information for honeybees.consulting.">
-  <meta name="theme-color" content="#f3c544">
-  <link rel="icon" href="assets/bee-mark.svg" type="image/svg+xml"><link rel="stylesheet" href="assets/fonts/fonts.css"><link rel="stylesheet" href="assets/style.css">
-  <script src="assets/copy.js" defer></script><script src="assets/app.js" defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Site information &amp; privacy · honeybees.consulting</title>
+  <meta name="description" content="Publisher, contact, newsletter and data handling information for honeybees.consulting.">
+  <meta name="theme-color" content="#F7F6EE">
+  <link rel="canonical" href="https://honeybees.consulting/privacy.html">
+  <link rel="icon" href="assets/bee-mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/fonts/fonts.css">
+  <link rel="stylesheet" href="assets/story.css">
+  <!--part:head-script--><script>
+    /* Decide before first paint: full motion or calm. */
+    (function () {
+      var d = document.documentElement, pref = null, seen = null;
+      try { pref = localStorage.getItem('honeybee-motion'); seen = sessionStorage.getItem('honeybee-loaded'); } catch (e) {}
+      var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var calm = pref === 'calm' || (pref !== 'full' && reduce);
+      d.className += ' js' + (calm ? ' calm' : ' motion');
+      d.setAttribute('data-loader', 'skip');
+    })();
+  </script><!--/part:head-script-->
+  <script src="assets/copy.js" defer></script>
+  <script src="assets/business-core.js" defer></script>
+  <script src="assets/story.js" defer></script>
 </head>
-<body data-page="privacy">
+<body data-page="privacy" data-title-key="privacy.meta.title">
+  <!--art:defs--><svg class="svg-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs>
+<linearGradient id="g-petal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFA"/><stop offset="1" stop-color="#E9EDDC"/></linearGradient>
+<radialGradient id="g-pollen" cx=".38" cy=".34" r=".75"><stop offset="0" stop-color="#F6D77C"/><stop offset=".7" stop-color="#EABB35"/><stop offset="1" stop-color="#C99418"/></radialGradient>
+<linearGradient id="g-leaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A8C58A"/><stop offset="1" stop-color="#4F7A45"/></linearGradient>
+<linearGradient id="g-front" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3CB55"/><stop offset="1" stop-color="#EABB35"/></linearGradient>
+<linearGradient id="g-side" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D9A429"/><stop offset="1" stop-color="#C99418"/></linearGradient>
+<linearGradient id="g-mute" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F0EFE6"/><stop offset="1" stop-color="#EAE9DF"/></linearGradient>
+<radialGradient id="g-glow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#EABB35" stop-opacity=".55"/><stop offset=".55" stop-color="#EABB35" stop-opacity=".18"/><stop offset="1" stop-color="#EABB35" stop-opacity="0"/></radialGradient>
+<radialGradient id="g-shadow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#17291F" stop-opacity=".22"/><stop offset="1" stop-color="#17291F" stop-opacity="0"/></radialGradient>
+<linearGradient id="g-hill-a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E2E9D4"/><stop offset="1" stop-color="#EEF1E4"/></linearGradient>
+<linearGradient id="g-hill-b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#CFDDBD"/><stop offset="1" stop-color="#E2E9D4"/></linearGradient>
+<linearGradient id="g-hill-c" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A8C58A"/><stop offset="1" stop-color="#BCD3A2"/></linearGradient>
+</defs><defs>
+<radialGradient id="g-honey" cx=".42" cy=".38" r=".7"><stop offset="0" stop-color="#FAD46A"/><stop offset=".55" stop-color="#EABB35"/><stop offset="1" stop-color="#C98A12"/></radialGradient>
+<radialGradient id="g-well" cx=".5" cy=".62" r=".7"><stop offset="0" stop-color="#F3DFA6"/><stop offset="1" stop-color="#D9B55C"/></radialGradient>
+<linearGradient id="g-cap" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF8DE"/><stop offset="1" stop-color="#EBD9A0"/></linearGradient>
+<linearGradient id="g-wax" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F8E39F"/><stop offset="1" stop-color="#E2BE5C"/></linearGradient>
+</defs></svg><!--/art:defs-->
   <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
-  <header class="site-header"><div class="wrap header-inner"><a class="brand" href="index.html" data-home-link><img src="assets/bee-mark-colour.svg" width="48" height="48" alt=""><span>honeybees<span class="brand-sub">CONSULTING</span></span></a><div class="language-control" role="group" aria-label="Language / Langue"><button type="button" data-lang="en" aria-pressed="true">EN</button><span aria-hidden="true">/</span><button type="button" data-lang="fr" aria-pressed="false">FR</button></div></div></header>
-  <main class="wrap legal-main" id="main"><a class="text-link" href="index.html" data-home-link><span aria-hidden="true">←</span><span data-i18n="privacy.back">Back to the website</span></a><p class="eyebrow" data-i18n="privacy.label">Clear by design</p><h1 data-i18n="privacy.title">Site information & privacy.</h1>
-    <h2 data-i18n="privacy.publisherTitle">Who publishes this site?</h2><p data-i18n="privacy.publisher">honeybees.consulting is the consulting brand presented by Daksh Mehta, based in Paris, France.</p><p><span data-i18n="privacy.contact">For questions about the website or your information, write to</span> <a href="mailto:Dakshmehta077@gmail.com">Dakshmehta077@gmail.com</a>.</p>
-    <h2 data-i18n="privacy.dataTitle">Your inputs stay on your device.</h2><p data-i18n="privacy.data">The calculator and priority guide run in your browser. The contact form creates an email draft in your own email application. Form entries and calculator values are not submitted to a honeybees server or saved by this website.</p><p data-i18n="privacy.email">When you choose to send an email, its contents are handled by your email provider and the recipient’s email service. Daksh uses enquiry information to respond and discuss the requested work. You can contact him to ask about or request deletion of that correspondence.</p>
-    <h2 data-i18n="privacy.preferencesTitle">Language preference and analytics.</h2><p data-i18n="privacy.preferences">The site remembers your language and calm-mode choices in your browser’s local storage (honeybee-language, honeybee-motion), and that you have seen the opening animation in session storage (honeybee-loaded). You can clear it in your browser’s site-data settings. No analytics, advertising pixels, tracking cookies or embedded third-party forms are added by this site. Fonts and images are hosted with the site.</p>
-    <h2 data-i18n="privacy.hostingTitle">Hosting and external links.</h2><p data-i18n="privacy.hosting">The public version is hosted on GitHub Pages. Hosting providers may process connection information such as IP addresses and request logs to operate their services. External resource links take you to other websites, which have their own privacy policies.</p><p><a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer" data-i18n="privacy.github">GitHub’s privacy statement ↗</a></p>
-    <h2 data-i18n="privacy.contentTitle">Images, background and business examples.</h2><p data-i18n="privacy.content">The founder portrait and background are drawn from Daksh’s public portfolio. The bee photograph is an illustrative image created for this website using image generation. It does not document a client project or an environmental result. The bee logo is an original vector design.</p><p data-i18n="privacy.examples">Calculator defaults are illustrative assumptions, not promised savings or results from honeybees clients. Framework names describe areas of support and do not imply an accreditation, affiliation or guaranteed assessment outcome.</p>
-    <h2 data-i18n="privacy.scopeTitle">Discussing a project.</h2><p data-i18n="privacy.scope">Sending an enquiry does not create a consulting agreement. Scope, deliverables, schedule, pricing and any information-sharing arrangements are agreed separately before a project begins.</p><p class="small-label" data-i18n="privacy.updated">Last updated: 10 October 2026</p>
+  <!--part:header--><header class="top">
+    <div class="top-inner">
+      <a class="brand" href="index.html" data-lang-link aria-label="honeybees.consulting, home" data-i18n-aria="story.brandHome">
+        <img src="assets/bee-mark-colour.svg" width="40" height="40" alt="">
+        <span class="brand-word">honeybees<span class="brand-sub">CONSULTING</span></span>
+      </a>
+      <nav class="top-nav" id="top-nav" aria-label="Main navigation" data-i18n-aria="nav.label">
+        <a href="index.html#compete" data-lang-link data-i18n="story.nav.why">Why ESG</a>
+        <a href="index.html#help" data-lang-link data-i18n="story.nav.help">How we help</a>
+        <a href="resources.html" data-lang-link data-i18n="story.nav.resources">Resources</a>
+        <a class="nav-cta" href="contact.html" data-lang-link data-i18n="story.nav.contact">Contact</a>
+      </nav>
+      <div class="top-actions">
+        <button type="button" class="motion-switch" id="motion-switch" aria-pressed="false"><span class="motion-dot" aria-hidden="true"></span><span data-i18n="story.calm">Calm mode</span></button>
+        <div class="language-control" role="group" aria-label="Language / Langue">
+          <button type="button" data-lang="en" aria-pressed="true">EN</button><span aria-hidden="true">/</span><button type="button" data-lang="fr" aria-pressed="false">FR</button>
+        </div>
+        <button type="button" class="menu-button" id="menu-button" aria-expanded="false" aria-controls="top-nav"><span class="sr-only" data-i18n="story.menu">Menu</span><span class="menu-bars" aria-hidden="true"></span></button>
+      </div>
+    </div>
+  </header><!--/part:header-->
+
+  <main id="main" class="wrap legal">
+    <p class="chapter-label" data-i18n="privacy.label">Clear by design</p>
+    <h1 data-i18n="privacy.title">Site information &amp; privacy.</h1>
+
+    <h2 data-i18n="privacy.publisherTitle">Who publishes this site?</h2>
+    <p data-i18n="privacy.publisher">honeybees.consulting is the consulting brand presented by Daksh Mehta, based in Paris, France.</p>
+    <p><span data-i18n="privacy.contact">For questions about the website or your information, write to</span> <a href="mailto:dakshmehta077@gmail.com">dakshmehta077@gmail.com</a>.</p>
+
+    <h2 data-i18n="privacy.dataTitle">The contact form stays on your device.</h2>
+    <p data-i18n="privacy.data">The contact form prepares an email draft in your own email app. Nothing you type there is sent to or saved by this website. The calculator on the archived first version of the site also runs only in your browser.</p>
+    <p data-i18n="privacy.email">When you choose to send an email, its contents are handled by your email provider and the recipient’s email service. Daksh uses enquiry information to respond and discuss the requested work. You can contact him to ask about or request deletion of that correspondence.</p>
+
+    <h2 id="newsletter" data-i18n="privacy.letterTitle">The honeybees letter.</h2>
+    <p data-i18n="privacy.letter">If you subscribe, your email address, your language, the page you signed up on and the date are stored in a Google Sheet that only Daksh can open. Google receives them through a Google Apps Script form handler and processes them on his behalf. Your address is used only to send the letter and is never shared or sold.</p>
+    <p data-i18n="privacy.letterRights">To unsubscribe or have your address deleted, reply to any letter or write to the address above. You can also ask what we hold about you.</p>
+
+    <h2 data-i18n="privacy.preferencesTitle">Preferences and analytics.</h2>
+    <p data-i18n="privacy.preferences">The site remembers your language and calm-mode choices in your browser’s local storage (honeybee-language, honeybee-motion), and that you have seen the opening animation in session storage (honeybee-loaded). You can clear them in your browser’s site-data settings. No analytics, advertising pixels or tracking cookies are added by this site. Fonts and images are hosted with the site.</p>
+
+    <h2 data-i18n="privacy.hostingTitle">Hosting and external links.</h2>
+    <p data-i18n="privacy.hosting">The site is hosted on GitHub Pages. Hosting providers may process connection information such as IP addresses and request logs to operate their services. External resource links take you to other websites, which have their own privacy policies.</p>
+    <p><a class="text-link" href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer" data-i18n="privacy.github">GitHub’s privacy statement ↗︎</a></p>
+
+    <h2 data-i18n="privacy.contentTitle">Illustrations and logos.</h2>
+    <p data-i18n="privacy.content">The bees, hives and flowers are original vector illustrations made for this site. Framework and tool logos belong to their owners. They name the standards and tools we work with and do not imply an accreditation, partnership or guaranteed assessment result.</p>
+
+    <h2 data-i18n="privacy.scopeTitle">Discussing a project.</h2>
+    <p data-i18n="privacy.scope">Sending an enquiry does not create a consulting agreement. Scope, deliverables, schedule, pricing and any information-sharing arrangements are agreed separately before a project begins.</p>
+    <p class="fine" data-i18n="privacy.updated">Last updated: 15 October 2026</p>
   </main>
-  <footer class="site-footer"><div class="wrap footer-bottom"><span>© 2026 honeybees.consulting · Daksh Mehta</span><a href="index.html" data-home-link data-i18n="privacy.back">Back to the website</a></div></footer>
+
+  <!--part:footer--><footer class="foot">
+    <section class="wrap letter" aria-labelledby="letter-title">
+      <div class="letter-bee" aria-hidden="true"><svg class="bee-svg" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><g transform="translate(0,0) scale(1.0) rotate(-14 100 92)"><clipPath id="abd43"><path d="M18,114 C38,80 86,73 105,92 C117,104 115,124 101,134 C81,150 42,148 18,114 Z"/></clipPath><g fill="#F7F6EE" stroke="#F7F6EE" stroke-width="15" stroke-linejoin="round" stroke-linecap="round"><path d="M112,90 C78,94 40,76 32,42 C72,32 108,56 112,90 Z"/><path d="M118,86 C96,62 94,26 120,4 C148,30 144,66 118,86 Z"/><path d="M18,114 C38,80 86,73 105,92 C117,104 115,124 101,134 C81,150 42,148 18,114 Z"/><path d="M96,104 C96,86 110,78 124,80 C130,72 140,70 150,72 C166,74 174,88 170,102 C166,114 154,120 142,116 C138,126 128,132 116,130 C104,128 96,118 96,104 Z"/><path d="M152,74 C154,58 162,48 178,48" fill="none"/><path d="M110,128 L106,142 L98,145 M130,126 L134,140 L143,142" fill="none"/></g><g stroke="#17291F" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><g class="wing wing-b"><path d="M112,90 C78,94 40,76 32,42 C72,32 108,56 112,90 Z" fill="#F3F8EA"/><path d="M102,82 C84,74 64,62 48,46" fill="none" stroke="#284F38" stroke-width="3.0"/></g><g class="wing wing-f"><path d="M118,86 C96,62 94,26 120,4 C148,30 144,66 118,86 Z" fill="#F3F8EA"/><path d="M117,76 C112,58 113,38 120,20" fill="none" stroke="#284F38" stroke-width="3.0"/></g><path d="M110,128 L106,142 L98,145 M130,126 L134,140 L143,142" fill="none"/><g transform="rotate(-10 124 152)"><rect x="104" y="138" width="40" height="28" rx="3" fill="#F7F6EE" stroke-width="4.5"/><path d="M106,141 L124,155 L142,141" fill="none" stroke-width="3.5"/><circle cx="124" cy="160" r="3" fill="#C9693F" stroke="none"/></g><path d="M18,114 C38,80 86,73 105,92 C117,104 115,124 101,134 C81,150 42,148 18,114 Z" fill="#EABB35" stroke="none"/><path d="M54,62 Q39,112 53,160 L67,160 Q53,112 68,62 Z M80,62 Q66,112 80,160 L94,160 Q80,112 94,62 Z" fill="#17291F" stroke="none" clip-path="url(#abd43)"/><path d="M18,114 C38,80 86,73 105,92 C117,104 115,124 101,134 C81,150 42,148 18,114 Z" fill="none"/><path d="M96,104 C96,86 110,78 124,80 C130,72 140,70 150,72 C166,74 174,88 170,102 C166,114 154,120 142,116 C138,126 128,132 116,130 C104,128 96,118 96,104 Z" fill="#17291F"/><path d="M152,74 C154,58 162,48 178,48" fill="none"/><circle cx="157" cy="90" r="4.2" fill="#F7F6EE" stroke="none"/></g></g></svg></div>
+      <div class="letter-copy">
+        <h2 id="letter-title" data-i18n="letter.title">The honeybees letter</h2>
+        <p data-i18n="letter.body">Short, useful ESG news for companies: new rules, what clients now ask for, what works. Once a month at most.</p>
+      </div>
+      <form class="letter-form" id="letter-form" novalidate>
+        <label class="sr-only" for="letter-email" data-i18n="letter.label">Your work email</label>
+        <div class="letter-row">
+          <input id="letter-email" name="email" type="email" inputmode="email" autocomplete="email" required maxlength="254" placeholder="you@company.com" data-i18n-placeholder="letter.placeholder">
+          <button class="button button-light" type="submit"><span data-i18n="letter.submit">Subscribe</span></button>
+        </div>
+        <div class="hp" aria-hidden="true"><input name="website" tabindex="-1" autocomplete="off"></div>
+        <p class="letter-note"><span data-i18n="letter.note">We only use your email to send the letter. Unsubscribe anytime.</span> <a href="privacy.html#newsletter" data-lang-link data-i18n="letter.privacy">How we handle it</a></p>
+        <p class="letter-status" id="letter-status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+    <div class="wrap foot-inner">
+      <img src="assets/honeybees-logo-light.svg" width="300" height="90" alt="honeybees.consulting">
+      <p data-i18n="story.footer.tagline">ESG that wins clients.</p>
+      <nav class="foot-links" aria-label="Footer" data-i18n-aria="footer.nav">
+        <a href="resources.html" data-lang-link data-i18n="story.nav.resources">Resources</a>
+        <a href="contact.html" data-lang-link data-i18n="story.nav.contact">Contact</a>
+        <a href="https://www.linkedin.com/in/mehtadaksh/" target="_blank" rel="me noopener noreferrer">LinkedIn ↗&#xFE0E;</a>
+        <a href="privacy.html" data-lang-link data-i18n="footer.privacy">Privacy &amp; site information</a>
+      </nav>
+    </div>
+    <div class="wrap foot-bottom"><span>© 2026 honeybees.consulting · Daksh Mehta</span><a href="v1.html" data-lang-link data-i18n="footer.v1">Site V1 (archive)</a></div>
+  </footer><!--/part:footer-->
 </body>
 </html>

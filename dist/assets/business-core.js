@@ -25,5 +25,24 @@
       : `Hi Daksh,\n\nI’m ${name.trim()}, getting in touch from ${company.trim()}.\n\nWe would like help with: ${need}\n\n${message.trim()}\n\nBest,\n${name.trim()}`;
     return 'mailto:Dakshmehta077@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
   }
-  return { estimateSavings, enquiryLink };
+  // The newsletter goes to a Google Apps Script web app (backend/newsletter). Until its URL is
+  // pasted here, signing up opens an email to Daksh instead, so no address is ever lost.
+  const NEWSLETTER_URL = '';
+  const EMAIL = /^[^\s@<>()"',;:]+@[^\s@<>()"',;:]+\.[a-z]{2,}$/i;
+  function validEmail(value) {
+    const email = String(value ?? '').trim();
+    return email.length <= 254 && EMAIL.test(email) && !/^[=+\-@]/.test(email);
+  }
+  function subscription({ email, language, page, endpoint = NEWSLETTER_URL }) {
+    const clean = String(email ?? '').trim().toLowerCase();
+    if (!validEmail(clean)) throw new RangeError('Invalid email address.');
+    const lang = language === 'fr' ? 'fr' : 'en';
+    if (endpoint) {
+      return { method: 'post', url: endpoint, body: new URLSearchParams({ email: clean, lang, page: String(page ?? '').slice(0, 80) }).toString() };
+    }
+    const subject = lang === 'fr' ? 'Inscription à la lettre honeybees' : 'Subscribe me to the honeybees letter';
+    const body = (lang === 'fr' ? 'Bonjour Daksh,\n\nMerci de m’inscrire à la lettre honeybees : ' : 'Hi Daksh,\n\nPlease add me to the honeybees letter: ') + clean;
+    return { method: 'mailto', url: 'mailto:dakshmehta077@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body) };
+  }
+  return { estimateSavings, enquiryLink, validEmail, subscription, NEWSLETTER_URL };
 });
