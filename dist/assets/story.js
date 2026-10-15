@@ -56,7 +56,10 @@
     // Every other page reads ?lang=, so the choice follows the visitor there.
     document.querySelectorAll('[data-lang-link]').forEach(a => {
       const [path, hash] = a.getAttribute('href').split('#');
-      a.setAttribute('href', path.split('?')[0] + '?lang=' + language + (hash ? '#' + hash : ''));
+      const [file, query] = path.split('?');
+      const params = new URLSearchParams(query || '');
+      params.set('lang', language);
+      a.setAttribute('href', file + '?' + params + (hash ? '#' + hash : ''));
     });
     store.set('localStorage', 'honeybee-language', language);
   }
@@ -173,6 +176,7 @@
       angle += ((i - index + nodes.length) % nodes.length) * (360 / nodes.length);
       index = i;
       ring.style.setProperty('--angle', angle + 'deg');
+      ring.style.setProperty('--flip', i >= nodes.length / 2 ? -1 : 1);
       nodes.forEach((n, k) => { n.classList.toggle('is-active', k === i); n.setAttribute('aria-pressed', String(k === i)); });
       panels.forEach((p, k) => p.classList.toggle('is-active', k === i));
     };
@@ -237,6 +241,28 @@
     filter.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
     document.querySelectorAll('.res-card').forEach(card => { card.hidden = stage !== 'all' && card.dataset.stage !== stage; });
   });
+
+  /* ---------- how we help: the card row scrolls sideways when it doesn't fit ---------- */
+  const track = document.getElementById('crew-track');
+  if (track) {
+    const prev = document.querySelector('.rail-prev'), next = document.querySelector('.rail-next');
+    const ends = () => {
+      const max = track.scrollWidth - track.clientWidth - 2;
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= max;
+    };
+    const go = dir => track.scrollBy({ left: dir * track.clientWidth * .8, behavior: root.classList.contains('calm') ? 'auto' : 'smooth' });
+    prev.addEventListener('click', () => go(-1));
+    next.addEventListener('click', () => go(1));
+    track.addEventListener('scroll', ends, { passive: true });
+    addEventListener('resize', ends);
+    ends();
+  }
+
+  /* ---------- contact page: a service card can pick the subject ---------- */
+  const needSelect = document.getElementById('contact-need');
+  const wanted = new URLSearchParams(location.search).get('need');
+  if (needSelect && wanted && [...needSelect.options].some(o => o.value === wanted)) needSelect.value = wanted;
 
   /* ---------- contact page: prepare an email draft ---------- */
   const contact = document.getElementById('contact-form');

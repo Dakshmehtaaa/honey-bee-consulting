@@ -139,7 +139,7 @@ h2 em,h1 em{font-style:italic;color:var(--forest)}
 .motion .cue-arrow::after{animation:cue 1.8s var(--ease) infinite}
 @keyframes cue{0%{transform:translateY(0);opacity:1}70%{transform:translateY(16px);opacity:0}100%{opacity:0}}
 /* the comb's branch grows in from the right edge of the screen, not from the column edge */
-.hero-art{position:relative;margin-right:calc(-1 * max(20px, (100vw - var(--maxw)) / 2));z-index:1}
+.hero-art{--bleed:max(20px, (100vw - var(--maxw)) / 2);position:relative;width:min(1040px, 100% + var(--bleed));margin-left:auto;margin-right:calc(-1 * var(--bleed));z-index:1}
 .hero-svg{width:100%;height:auto;overflow:visible;margin-bottom:calc(var(--land) * -.62)}
 /* the meadow runs edge to edge under the whole hero */
 .hero-land{position:absolute;left:0;right:0;bottom:0;height:var(--land);z-index:2;pointer-events:none}
@@ -172,13 +172,15 @@ h2 em,h1 em{font-style:italic;color:var(--forest)}
 /* ---------- the market ---------- */
 .compete{padding-bottom:clamp(64px,10vh,110px);overflow-x:clip}
 .compete-art{margin-top:clamp(28px,5vh,56px)}
-.compete-stage{position:relative;width:min(100%,1320px);margin-inline:auto}
-.compete-svg{width:100%;height:auto;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
-.tag-b2b{left:2%;top:4%}
-.tag-b2c{right:2%;top:4%}
-.tag-chosen{left:62%;top:30%;transform:translate(-50%,-100%);transition:opacity .6s 1.6s,transform .6s var(--ease-pop) 1.6s}
+/* edge to edge at any width: the 2400-wide drawing is sliced from the middle at a fixed height, so one
+   canvas unit is --sh/420 px and anything placed relative to the gold hive (the centre) uses that */
+.compete-stage{--sh:clamp(300px,30vw,640px);position:relative;width:100%;height:var(--sh)}
+.compete-svg{display:block;width:100%;height:100%}
+.tag-b2b{left:max(16px,4%);top:5%}
+.tag-b2c{right:max(16px,4%);top:5%}
+.tag-chosen{left:calc(50% + var(--sh) * .026);top:22.5%;transform:translate(-50%,-100%);transition:opacity .6s 1.6s,transform .6s var(--ease-pop) 1.6s}
 .motion .compete:not(.in-view) .tag-chosen{opacity:0;transform:translate(-50%,-70%)}
-.perch-compete{left:61%;top:43%}
+.perch-compete{left:calc(50% - var(--sh) * .33);top:12%}
 .compete-key{display:flex;align-items:center;gap:14px;margin-top:14px;font-size:15px;color:var(--muted)}
 .key-bar{flex:none;display:grid;gap:4px;width:56px}
 .key-bar i{display:block;height:5px;border-radius:3px;background:linear-gradient(90deg,var(--c) var(--v),#E2E2D6 var(--v))}
@@ -203,7 +205,8 @@ h2 em,h1 em{font-style:italic;color:var(--forest)}
 .contrast-no .contrast-mark::before{background:var(--muted);clip-path:polygon(15% 0,50% 35%,85% 0,100% 15%,65% 50%,100% 85%,85% 100%,50% 65%,15% 100%,0 85%,35% 50%,0 15%)}
 .contrast-yes .contrast-mark{background:var(--pollen)}
 .contrast-yes .contrast-mark::before{width:13px;height:10px;background:var(--ink);clip-path:polygon(0 52%,14% 38%,38% 62%,86% 0,100% 14%,38% 90%)}
-.perch-value{right:6%;top:-6px}
+/* the Guide waits in the gap between the two contrast cards and the loop */
+.perch-value{left:calc(100% + clamp(30px,3vw,45px));bottom:22%}
 .value-copy > *{transition:opacity .8s var(--ease),translate .8s var(--ease)}
 .motion .value:not(.in-view) .contrast li{opacity:0;translate:0 20px}
 .contrast li{transition:opacity .7s var(--ease) calc(var(--i,0)*150ms + .3s),translate .7s var(--ease) calc(var(--i,0)*150ms + .3s)}
@@ -223,6 +226,9 @@ h2 em,h1 em{font-style:italic;color:var(--forest)}
 .loop-core{fill:var(--paper);stroke:var(--line);stroke-width:1.5}
 .loop-tail{fill:none;stroke:var(--pollen);stroke-width:6;stroke-linecap:round;opacity:.85}
 .loop-comet{transform-box:view-box;transform-origin:260px 260px;transform:rotate(var(--angle,0deg));transition:transform 1s var(--ease)}
+/* the comet turns round the ring; the bee inside turns back the other way so it never flies upside down,
+   and faces left on the way back up the left side */
+.loop-bee-fly{transform-box:fill-box;transform-origin:50% 50%;transform:rotate(calc(var(--angle,0deg) * -1)) scaleX(var(--flip,1));transition:transform 1s var(--ease)}
 .motion .value.in-view .loop-bee-fly .wing{animation:flap .13s ease-in-out infinite alternate}
 .loop-node{position:absolute;left:var(--x);top:var(--y);translate:-50% -50%;z-index:2;display:grid;justify-items:center;gap:6px;padding:0;border:0;background:none;font:inherit;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent}
 .loop-icon{width:clamp(44px,12cqw,62px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:var(--paper);border:2px solid var(--ink);transition:background .35s,transform .35s var(--ease-pop),box-shadow .35s}
@@ -233,13 +239,13 @@ h2 em,h1 em{font-style:italic;color:var(--forest)}
 .loop-node.is-active .loop-label{background:var(--ink);border-color:var(--ink);color:var(--ivory)}
 .loop-node:focus-visible{outline:none}
 .loop-node:focus-visible .loop-icon{outline:3px solid var(--forest);outline-offset:3px}
-.loop-panels{position:absolute;left:50%;top:50%;width:42%;translate:-50% -50%;display:grid;text-align:center}
+.loop-panels{position:absolute;left:50%;top:50%;width:38%;translate:-50% -50%;display:grid;text-align:center}
 .loop-panel{grid-area:1/1;align-self:center;opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .4s,transform .5s var(--ease),visibility 0s .4s}
 .loop-panel.is-active{opacity:1;visibility:visible;transform:none;transition:opacity .45s .15s,transform .55s var(--ease) .15s,visibility 0s}
 .loop-num{font-size:clamp(10px,2.2cqw,12px);letter-spacing:.18em;font-weight:700;color:var(--forest)}
-.loop-panel h3{font-family:var(--serif);font-size:clamp(22px,5.6cqw,30px);line-height:1.05;margin:4px 0 6px}
-.loop-panel p:last-child{font-size:clamp(13px,2.85cqw,15px);line-height:1.45;color:var(--muted)}
-.calm .loop-comet,.calm .loop-panel,.calm .loop-icon{transition:none}
+.loop-panel h3{font-family:var(--serif);font-size:clamp(21px,5.2cqw,28px);line-height:1.05;margin:4px 0 6px}
+.loop-panel p:last-child{font-size:clamp(13px,2.7cqw,14.5px);line-height:1.45;color:var(--muted)}
+.calm .loop-comet,.calm .loop-bee-fly,.calm .loop-panel,.calm .loop-icon{transition:none}
 /* a small ring has no room in its middle: the words move under it */
 @container (max-width:440px){
   .loop-panels{position:relative;left:auto;top:auto;width:auto;translate:none;margin-top:14px;padding:18px 20px;background:var(--paper);border:1px solid var(--line);border-radius:20px}
@@ -251,28 +257,45 @@ h2 em,h1 em{font-style:italic;color:var(--forest)}
 }
 
 /* ---------- how we help: the crew ---------- */
-.crew{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:clamp(40px,7vh,72px)}
-.crew-card{--tint:#E3ECDF;--tone:var(--forest);background:var(--paper);border:1px solid var(--line);border-radius:26px;padding:14px 14px 22px;display:flex;flex-direction:column;transition:opacity .8s var(--ease) calc(var(--i)*140ms),translate .8s var(--ease) calc(var(--i)*140ms),box-shadow .3s}
+/* a row of cards that scrolls sideways when it doesn't fit: picture on top, words below, logos and an
+   arrow in the footer. The card lifts on hover, the picture zooms and the arrow turns. */
+.crew-rail{position:relative;margin-top:clamp(36px,6vh,64px)}
+.crew{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:2px;padding:12px 2px 22px;margin:-12px -2px -22px;scrollbar-width:none;overscroll-behavior-x:contain}
+.crew::-webkit-scrollbar{display:none}
+.crew-card{--tint:#E3ECDF;--tone:var(--forest);flex:0 0 calc((100% - 66px) / 4);min-width:268px;scroll-snap-align:start;display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:24px;overflow:hidden;color:inherit;text-decoration:none;transition:opacity .8s var(--ease) calc(var(--i)*120ms),translate .8s var(--ease) calc(var(--i)*120ms),transform .35s var(--ease-pop),box-shadow .35s}
 .crew-engineer{--tint:#F7E3D7;--tone:var(--clay-deep)}
 .crew-storyteller{--tint:#DCEDEA;--tone:var(--teal)}
 .crew-gardener{--tint:#F6EBCB;--tone:#735410}
 .motion .help:not(.in-view) .crew-card{opacity:0;translate:0 40px}
-.crew-card:nth-child(n+3){transition-delay:calc(var(--i)*140ms + 120ms)}
-.crew-card:hover{box-shadow:0 18px 40px -24px rgba(23,41,31,.45)}
-.crew-head{background:var(--tint);border-radius:18px;padding:14px 18px 12px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:18px}
-.crew-bee{width:150px;margin:-10px 0 -6px -8px;transition:transform .4s var(--ease)}
-.crew-card:hover .crew-bee{transform:translate(6px,-8px)}
+.crew-card:hover,.crew-card:focus-visible{transform:translateY(-8px);box-shadow:0 26px 44px -28px rgba(23,41,31,.55)}
+.crew-card:focus-visible{outline:3px solid var(--pollen);outline-offset:3px}
+.crew-pic{height:clamp(170px,15vw,210px);background:var(--tint);display:grid;place-items:center;overflow:hidden}
+.crew-bee{width:clamp(140px,12vw,172px);transition:transform .6s var(--ease)}
+.crew-card:hover .crew-bee{transform:scale(1.1) rotate(-3deg)}
 .motion .crew-card:hover .wing{animation:flap .12s ease-in-out infinite alternate}
-.crew-role{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--tone);text-align:right;display:grid;gap:2px}
-.crew-num{font:400 34px/1 var(--serif);letter-spacing:0;color:var(--tone)}
-.crew-card h3{font-family:var(--serif);font-size:clamp(28px,2.5vw,34px);line-height:1.05;margin:0 10px 10px}
-.crew-body{color:var(--muted);margin:0 10px}
-.logo-label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--muted);margin:22px 10px 10px}
-/* six marks per card on a 3 × 2 grid, so the box is always full */
-.logos{list-style:none;margin:auto 0 0;padding:12px 14px;background:#fff;border:1px solid var(--line);border-radius:16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:54px;gap:4px 14px;place-items:center}
-.logos li{display:flex;align-items:center;justify-content:center;min-width:0}
-/* each mark has its own --h so a roundel and a long wordmark read at the same weight: 34 × aspect^-0.42, nudged by eye */
-.logos img{height:calc(var(--h,28px) * 1.2);width:auto;max-width:100%;object-fit:contain}
+.crew-content{flex:1;display:flex;flex-direction:column;padding:18px 20px 18px}
+.crew-tag{display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--tone);margin-bottom:10px}
+.crew-tag-icon{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round}
+.crew-num{font-variant-numeric:tabular-nums;opacity:.7}
+.crew-card h3{font-family:var(--serif);font-size:clamp(25px,2vw,29px);line-height:1.05;margin-bottom:8px}
+.crew-body{color:var(--muted);font-size:15px;line-height:1.5}
+.crew-foot{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.crew-content > .crew-body{margin-bottom:18px}
+.logo-label{font-size:10.5px;line-height:1.4;min-height:2.8em;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--muted);margin-bottom:6px}
+/* six marks per card, 3 × 2, each with its own --h so a roundel and a long wordmark read at the same weight */
+.logos{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:36px;gap:2px 10px;place-items:center start}
+.logos li{display:flex;align-items:center;min-width:0}
+.logos img{height:calc(var(--h,28px) * .76);width:auto;max-width:100%;object-fit:contain}
+.crew-go{flex:none;width:40px;height:40px;border-radius:50%;background:var(--tint);color:var(--ink);display:grid;place-items:center;transition:transform .35s var(--ease),background .35s,color .35s}
+.crew-go svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.crew-card:hover .crew-go,.crew-card:focus-visible .crew-go{transform:rotate(-45deg);background:var(--ink);color:var(--ivory)}
+.rail-btn{position:absolute;top:50%;z-index:2;width:46px;height:46px;margin-top:-23px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,251,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:0 10px 24px -16px rgba(23,41,31,.6);opacity:0;transition:opacity .3s,background .2s}
+.rail-btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.rail-prev{left:-16px}.rail-next{right:-16px}
+.crew-rail:hover .rail-btn,.rail-btn:focus-visible{opacity:1}
+.rail-btn:hover{background:var(--paper)}
+.rail-btn:disabled{opacity:0!important;pointer-events:none}
+.calm .crew-card,.calm .crew-bee,.calm .crew-go{transition:none}
 
 
 
@@ -383,6 +406,18 @@ h2 em,h1 em{font-style:italic;color:var(--forest)}
 .legal a{color:var(--ink)}
 
 /* ---------- responsive ---------- */
+@media (min-width:1600px){:root{--maxw:1320px}}
+@media (min-width:1900px){
+  :root{--maxw:1480px}
+  body{font-size:18px}
+  .hero h1{font-size:clamp(106px,5.6vw,140px)}
+  h2{font-size:clamp(82px,4.3vw,100px)}
+  .chapter-text,.hero-sub{font-size:22px}
+  .loop{max-width:600px}
+  .narrow>*{max-width:1000px}
+  .value-grid{grid-template-columns:minmax(0,1fr) minmax(0,600px)}
+}
+@media (min-width:2300px){:root{--maxw:1680px}body{font-size:19px}.chapter-text,.hero-sub{font-size:24px}}
 @media (max-width:980px){
   .menu-button{display:inline-flex}
   .top-nav{display:none;position:absolute;left:0;right:0;top:100%;background:var(--ivory);border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:0;padding:8px max(20px,env(safe-area-inset-left,0px)) 18px;font-size:18px}
@@ -391,8 +426,8 @@ h2 em,h1 em{font-style:italic;color:var(--forest)}
   .top-nav .nav-cta{margin-top:14px;text-align:center;border-bottom:0;padding:14px}
   .proof{grid-template-columns:1fr;max-width:620px}
   .value-grid{grid-template-columns:1fr}
+  .perch-value{left:auto;right:4%;bottom:auto;top:-10px}
   .loop{justify-self:center}
-  .crew{grid-template-columns:1fr;max-width:620px}
   .letter{grid-template-columns:90px 1fr}
   .letter-art{width:90px}
   .letter-form{grid-column:1 / -1}
@@ -409,9 +444,6 @@ h2 em,h1 em{font-style:italic;color:var(--forest)}
   .hero-goggles{left:28%;width:46px}
   .perch-hero{left:calc(28% - 18px);bottom:calc(30% + 22px)}
   .static-guide{left:calc(28% - var(--guide) * .78)}
-  .compete-stage{width:900px;margin-left:calc(50% - 560px)}
-  .tag-b2b{left:calc(560px - 47vw)}
-  .tag-b2c{right:auto;left:calc(560px + 47vw);transform:translateX(-100%)}
   .art-tag{font-size:11px;padding:4px 10px}
   .swarm .s2{left:6%;top:62%}.swarm .s3{right:6%;top:60%}
   .perch-contact{right:28px;top:24%}
@@ -424,7 +456,7 @@ h2 em,h1 em{font-style:italic;color:var(--forest)}
   .brand img{width:34px;height:34px}
   .motion-switch{padding:6px 9px;font-size:12px}
   .top-actions{gap:8px}
-  .crew-bee{width:120px}
+  .crew-card{flex-basis:82%}
   .letter{grid-template-columns:1fr}
   .letter-art{width:84px}
   .letter-row{flex-direction:column}

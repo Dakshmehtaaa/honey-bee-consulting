@@ -368,5 +368,8 @@
   "story.help.s4.t": "Projets d’impact environnemental et social",
   "story.help.s4.b": "Nous planifions et menons les projets qui réduisent votre empreinte environnementale et créent une vraie valeur sociale, avec des responsables, des budgets et des résultats à montrer.",
   "story.help.s4.logos": "Référentiels et outils pour livrer",
-  "story.compete.key": "Chaque ruche est un concurrent. Le chiffre est son score ESG sur 100, le type de note qu’EcoVadis donne aux fournisseurs."
+  "story.compete.key": "Chaque ruche est un concurrent. Le chiffre est son score ESG sur 100, le type de note qu’EcoVadis donne aux fournisseurs.",
+  "story.help.prev": "Service précédent",
+  "story.help.next": "Service suivant",
+  "cpage.opt.impact": "Projets d’impact environnemental et social"
 }
