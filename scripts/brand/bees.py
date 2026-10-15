@@ -3,9 +3,8 @@
 Usage: python3 scripts/brand/bees.py <out-dir>   (needs fontTools; writes every SVG plus review.html)
 The site copies: dist/assets/bee-mark.svg = mark-favicon, bee-mark-colour.svg = mark-colour,
 honey-bee-logo.svg = lockup-sans. The homepage bees in index.html were pasted from bee()/front_bee()."""
-import os, sys
+import math, os, sys
 
-OUT = sys.argv[1]
 IVORY, POLLEN, INK, FOREST, WING = "#F7F6EE", "#EABB35", "#17291F", "#284F38", "#F3F8EA"
 LENS, CLAY = "#BFE0D8", "#C9693F"
 
@@ -18,6 +17,7 @@ VEIN_F = "M117,76 C112,58 113,38 120,20"
 BODY = ("M96,104 C96,86 110,78 124,80 C130,72 140,70 150,72 C166,74 174,88 170,102 "
         "C166,114 154,120 142,116 C138,126 128,132 116,130 C104,128 96,118 96,104 Z")
 ANT = "M152,74 C154,58 162,48 178,48"
+ANT_HAT = "M163,57 C167,45 175,39 187,39"
 LEGS = "M110,128 L106,142 L98,145 M130,126 L134,140 L143,142"
 BANDS = ("M54,62 Q39,112 53,160 L67,160 Q53,112 68,62 Z "
          "M80,62 Q66,112 80,160 L94,160 Q80,112 94,62 Z")
@@ -27,8 +27,9 @@ def uid(p):
     _uid[0] += 1
     return f"{p}{_uid[0]}"
 
-def bee(prop=None, sw=6, eye="dot", band=INK, body_fill=POLLEN, legs=True, halo=None):
-    """Full-colour bee in level coordinates."""
+def bee(prop=None, sw=6, eye="dot", band=INK, body_fill=POLLEN, legs=True, halo=None, hat=None):
+    """Full-colour bee in level coordinates. hat names an entry in HATS; the antenna then grows
+    out of the crown instead of the head."""
     c = uid("abd")
     s = [f'<clipPath id="{c}"><path d="{ABD}"/></clipPath>']
     if halo:  # keyline so the ink head and outlines survive on a dark background
@@ -45,8 +46,9 @@ def bee(prop=None, sw=6, eye="dot", band=INK, body_fill=POLLEN, legs=True, halo=
     s += [f'<path d="{ABD}" fill="{body_fill}" stroke="none"/>',
           f'<path d="{BANDS}" fill="{band}" stroke="none" clip-path="url(#{c})"/>',
           f'<path d="{ABD}" fill="none"/>',
-          f'<path d="{BODY}" fill="{INK}"/>',
-          f'<path d="{ANT}" fill="none"/>']
+          f'<path d="{BODY}" fill="{INK}"/>']
+    if not hat:
+        s.append(f'<path d="{ANT}" fill="none"/>')
     if eye == "dot":
         s.append(f'<circle cx="157" cy="90" r="4.2" fill="{IVORY}" stroke="none"/>')
     elif eye == "look":   # turned toward the viewer: bigger white, pupil forward-down
@@ -54,6 +56,8 @@ def bee(prop=None, sw=6, eye="dot", band=INK, body_fill=POLLEN, legs=True, halo=
                  f'<circle cx="153.5" cy="92" r="3.6" fill="{INK}" stroke="none"/>')
     if prop:
         s.append(PROPS[prop][1])
+    if hat:
+        s.append(HATS[hat] + f'<path d="{ANT_HAT}" fill="none"/>')
     s.append('</g>')
     return "".join(s)
 
@@ -78,6 +82,52 @@ PROPS = {
         f'<path d="M124,146 C132,136 144,138 146,144 C138,150 130,150 124,146 Z" fill="#8FB46A" stroke-width="4"/>'
         f'<path d="M122,152 C114,144 104,146 102,152 C110,158 116,157 122,152 Z" fill="#8FB46A" stroke-width="4"/>', ""),
 }
+
+# Headwear tells the crew apart at a glance; every hat is lighter than the ink head so it reads.
+CREST, CAP_CLAY, CAP_CLAY_D, BERET, BERET_D = "#FFFFFA", CLAY, "#9E4E2C", "#6FB0A8", "#3F7F78"
+_CROWN = "M127,82 C124,62 139,51 154,51 C169,51 178,62 175,80 C160,74 141,74 127,82 Z"
+HATS = {
+    # inspector's peaked cap: ivory crown, forest band and peak, gold badge
+    "peaked": (f'<path d="M124,74 C116,64 128,50 151,47 C174,44 190,53 183,66 C180,71 175,72 172,71 C158,66 143,67 130,74 C128,75 126,75 124,74 Z" fill="{CREST}"/>'
+               f'<path d="M130,83 C144,76 160,75 173,80 L172,70 C158,66 143,67 130,74 Z" fill="{FOREST}" stroke-width="4.5"/>'
+               f'<path d="M167,79 C180,76 195,80 201,89 C189,94 176,92 165,86 Z" fill="{FOREST}"/>'
+               f'<circle cx="158" cy="59" r="5.5" fill="{POLLEN}" stroke-width="3.5"/>'),
+    # engineer's cap worn backwards: clay crown, peak pointing back
+    "backwards": (f'<path d="M136,78 C120,74 102,76 92,86 C104,93 122,92 138,86 Z" fill="{CAP_CLAY_D}"/>'
+                  f'<path d="{_CROWN}" fill="{CAP_CLAY}"/>'
+                  f'<path d="M151,52 C147,60 146,70 148,76 M157,52 C164,59 167,68 166,75" fill="none" stroke="{CAP_CLAY_D}" stroke-width="3"/>'
+                  f'<circle cx="154" cy="51" r="3.6" fill="{CAP_CLAY_D}" stroke-width="3"/>'),
+    # storyteller's beret, tipped back over the head
+    "beret": (f'<path d="M119,76 C112,62 132,50 155,51 C176,52 186,62 178,73 C163,82 132,85 119,76 Z" fill="{BERET}"/>'
+              f'<path d="M126,70 C138,60 156,57 172,60" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width="3"/>'
+              f'<path d="M150,51 L152,43" stroke-width="5"/>'),
+}
+
+def _cog(cx, cy, r, teeth=8):
+    pts = []
+    for k in range(teeth * 4):
+        a = math.pi * 2 * k / (teeth * 4)
+        rr = r if (k % 4) in (1, 2) else r * .74
+        pts.append(f"{cx + rr * math.cos(a):.1f},{cy + rr * math.sin(a):.1f}")
+    return "M" + " L".join(pts) + " Z"
+
+PROPS.update({
+    "medal": (
+        f'<path d="M114,152 L105,178 L114,174 L118,182 L125,156 Z" fill="{FOREST}" stroke-width="4"/>'
+        f'<path d="M127,155 L132,182 L137,174 L146,177 L136,152 Z" fill="{CLAY}" stroke-width="4"/>'
+        f'<circle cx="122" cy="148" r="15" fill="{POLLEN}"/>',
+        f'<path d="M115,148 L120,154 L130,142" fill="none" stroke-width="4.5"/>'),
+    "cog": (
+        f'<path d="{_cog(124, 150, 17)}" fill="{IVORY}" stroke-width="4.5"/>'
+        f'<circle cx="124" cy="150" r="5.5" fill="{POLLEN}" stroke-width="4"/>', ""),
+    "letter": (
+        f'<g transform="rotate(-10 124 152)"><rect x="104" y="138" width="40" height="28" rx="3" fill="{IVORY}" stroke-width="4.5"/>'
+        f'<path d="M106,141 L124,155 L142,141" fill="none" stroke-width="3.5"/><circle cx="124" cy="160" r="3" fill="{CLAY}" stroke="none"/></g>', ""),
+    "report": (
+        f'<g transform="rotate(-8 122 152)"><rect x="106" y="133" width="32" height="40" rx="3" fill="{IVORY}" stroke-width="4.5"/>'
+        f'<rect x="112" y="156" width="5" height="11" fill="{FOREST}" stroke="none"/><rect x="120" y="150" width="5" height="17" fill="{POLLEN}" stroke="none"/>'
+        f'<rect x="128" y="144" width="5" height="23" fill="{CLAY}" stroke="none"/><path d="M112,140 H132" stroke-width="3"/></g>', ""),
+})
 
 def bee_solid(bg, fg=INK, gap=5, legs=True):
     """One-colour silhouette: parts separated by background-coloured gaps so it holds at 16-24px."""
@@ -197,24 +247,24 @@ CHAR = {
     "grower": ("The Grower", "Plants back. Social and environmental impact, the flower side of the story.", fly(bee(prop="sprout"), angle=-20)),
     "builder": ("The Builder", "Brings a honey cell to the hive: strategy and reporting that grow the business.", fly(bee(prop="hex"), angle=-22)),
     "messenger": ("The Messenger", "Turns to face the visitor at Contact.", front_bee()),
+    "inspector": ("The Inspector", "Ratings and certifications. Peaked cap, gold medal.", fly(bee(prop="medal", hat="peaked"), angle=-16)),
+    "engineer": ("The Engineer", "Data, AI and automation. Cap on backwards, a cog in hand.", fly(bee(prop="cog", hat="backwards"), angle=-20)),
+    "storyteller": ("The Storyteller", "Reporting and narrative. Beret, and the report everyone reads.", fly(bee(prop="report", hat="beret"), angle=-14)),
 }
 for k, (_, _, g) in CHAR.items():
     A[f"bee-{k}"] = svg(g, (0, 0, 200, 200))
 
-os.makedirs(OUT, exist_ok=True)
-for k, v in A.items():
-    with open(os.path.join(OUT, f"{k}.svg"), "w") as f:
-        f.write(v)
 
 # ---------- review sheet ----------
 def card(title, body, inner, cls=""):
     return f'<figure class="card {cls}"><div class="art">{inner}</div><figcaption><b>{title}</b><span>{body}</span></figcaption></figure>'
 
-sizes = "".join(f'<div class="sz"><div style="width:{p}px;height:{p}px">{A["mark-favicon"]}</div><small>{p}px</small></div>' for p in (16, 24, 32, 48))
-sizes_tile = "".join(f'<div class="sz"><div style="width:{p}px;height:{p}px">{A["mark-tile"]}</div><small>{p}px</small></div>' for p in (16, 24, 32, 48))
-chars = "".join(card(t, d, A[f"bee-{k}"], "char") for k, (t, d, _) in CHAR.items())
+def review_html():
+    sizes = "".join(f'<div class="sz"><div style="width:{p}px;height:{p}px">{A["mark-favicon"]}</div><small>{p}px</small></div>' for p in (16, 24, 32, 48))
+    sizes_tile = "".join(f'<div class="sz"><div style="width:{p}px;height:{p}px">{A["mark-tile"]}</div><small>{p}px</small></div>' for p in (16, 24, 32, 48))
+    chars = "".join(card(t, d, A[f"bee-{k}"], "char") for k, (t, d, _) in CHAR.items())
 
-html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
+    return f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>honeybees logo v1</title>
 <style>
@@ -276,6 +326,15 @@ p.note{{color:var(--sub);max-width:75ch;margin:0 0 16px}}
 <p class="note">One body, told apart by a single prop and pose, never by costumes or faces, so it stays adult. Each bee owns a part of the story and a service. The Messenger is the only one that looks straight at you.</p>
 <div class="grid">{chars}</div>
 </main></body></html>"""
-with open(os.path.join(OUT, "review.html"), "w") as f:
-    f.write(html)
-print("ok", len(A), "svgs")
+
+def main(out):
+    os.makedirs(out, exist_ok=True)
+    for k, v in A.items():
+        with open(os.path.join(out, f"{k}.svg"), "w") as f:
+            f.write(v)
+    with open(os.path.join(out, "review.html"), "w") as f:
+        f.write(review_html())
+    print("ok", len(A), "svgs")
+
+if __name__ == "__main__":
+    main(sys.argv[1])

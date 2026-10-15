@@ -4,18 +4,38 @@
   const french = window.HONEY_FRENCH || {};
   const english = {};
   const englishAttributes = {};
-  const ATTRS = [['data-i18n-aria', 'aria-label'], ['data-i18n-alt', 'alt']];
+  const ATTRS = [['data-i18n-aria', 'aria-label'], ['data-i18n-alt', 'alt'], ['data-i18n-placeholder', 'placeholder']];
   const store = {
     get(area, key) { try { return window[area].getItem(key); } catch (_) { return null; } },
     set(area, key, value) { try { window[area].setItem(key, value); } catch (_) { /* Preferences are optional. */ } }
+  };
+  const ui = {
+    en: {
+      emailDraft: 'Your email app should open with a draft. Nothing is sent until you press send.',
+      letterBad: 'Please check your email address.',
+      letterBusy: 'Adding you…',
+      letterDone: 'You’re on the list. Thank you!',
+      letterMail: 'Your email app should open with a short sign-up email. Press send and you’re on the list.',
+      letterFail: 'That didn’t go through. Please try again, or write to dakshmehta077@gmail.com.'
+    },
+    fr: {
+      emailDraft: 'Votre messagerie devrait s’ouvrir avec un brouillon. Rien n’est envoyé tant que vous n’appuyez pas sur Envoyer.',
+      letterBad: 'Vérifiez votre adresse e-mail.',
+      letterBusy: 'Inscription en cours…',
+      letterDone: 'Vous êtes inscrit·e. Merci !',
+      letterMail: 'Votre messagerie devrait s’ouvrir avec un court e-mail d’inscription. Envoyez-le et c’est fait.',
+      letterFail: 'L’inscription n’a pas abouti. Réessayez, ou écrivez à dakshmehta077@gmail.com.'
+    }
   };
 
   /* ---------- language ---------- */
   document.querySelectorAll('[data-i18n]').forEach(el => { english[el.dataset.i18n] = window.HONEY_ENGLISH?.[el.dataset.i18n] ?? el.textContent; });
   ATTRS.forEach(([key, attr]) => document.querySelectorAll('[' + key + ']').forEach(el => { englishAttributes[el.getAttribute(key)] = el.getAttribute(attr); }));
+  const description = document.querySelector('meta[name="description"]');
+  const titleKey = document.body.dataset.titleKey;
   const meta = {
-    en: { title: document.title, description: document.querySelector('meta[name="description"]').content },
-    fr: { title: french['story.meta.title'], description: french['story.meta.description'] }
+    en: { title: document.title, description: description && description.content },
+    fr: titleKey ? { title: french[titleKey] } : { title: french['story.meta.title'], description: french['story.meta.description'] }
   };
   let language = 'en';
   function setLanguage(next) {
@@ -32,42 +52,50 @@
     }));
     document.querySelectorAll('[data-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === language)));
     if (meta[language].title) document.title = meta[language].title;
-    if (meta[language].description) document.querySelector('meta[name="description"]').content = meta[language].description;
-    // The detailed pages read ?lang=, so the choice follows the visitor there.
-    document.querySelectorAll('[data-services-link], a[href^="privacy.html"]').forEach(a => {
+    if (description && meta[language].description) description.content = meta[language].description;
+    // Every other page reads ?lang=, so the choice follows the visitor there.
+    document.querySelectorAll('[data-lang-link]').forEach(a => {
       const [path, hash] = a.getAttribute('href').split('#');
       a.setAttribute('href', path.split('?')[0] + '?lang=' + language + (hash ? '#' + hash : ''));
     });
     store.set('localStorage', 'honeybee-language', language);
   }
   document.querySelectorAll('[data-lang]').forEach(b => b.addEventListener('click', () => setLanguage(b.dataset.lang)));
-  let requested = new URLSearchParams(location.search).get('lang') || (location.pathname.endsWith('/fr.html') ? 'fr' : null) || store.get('localStorage', 'honeybee-language');
+  const requested = new URLSearchParams(location.search).get('lang') || (location.pathname.endsWith('/fr.html') ? 'fr' : null) || store.get('localStorage', 'honeybee-language');
   setLanguage(requested || 'en');
 
   /* ---------- loader ---------- */
-  if (root.dataset.loader === 'play') {
-    const loader = document.getElementById('loader');
+  const loader = document.getElementById('loader');
+  if (loader && root.dataset.loader === 'play') {
     const done = () => { root.classList.add('loaded'); store.set('sessionStorage', 'honeybee-loaded', '1'); };
     const timer = setTimeout(done, 1700);
     loader.addEventListener('click', () => { clearTimeout(timer); done(); });
   }
 
-  /* ---------- header shadow ---------- */
+  /* ---------- header: shadow and the small-screen menu ---------- */
   const top = document.querySelector('.top');
   const onScrollHeader = () => top.classList.toggle('is-scrolled', scrollY > 8);
   addEventListener('scroll', onScrollHeader, { passive: true });
   onScrollHeader();
+  const menu = document.getElementById('menu-button');
+  const setMenu = open => { top.classList.toggle('is-open', open); menu.setAttribute('aria-expanded', String(open)); };
+  if (menu) {
+    menu.addEventListener('click', () => setMenu(!top.classList.contains('is-open')));
+    document.querySelectorAll('#top-nav a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+    addEventListener('keydown', e => { if (e.key === 'Escape' && top.classList.contains('is-open')) { setMenu(false); menu.focus(); } });
+  }
 
   /* ---------- chapters reveal once ---------- */
   const chapters = [...document.querySelectorAll('.chapter')];
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(entries => entries.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
-    }), { threshold: 0.25, rootMargin: '0px 0px -10% 0px' });
+    }), { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
     chapters.forEach(c => io.observe(c));
   } else chapters.forEach(c => c.classList.add('in-view'));
   // The hero waits for the loader so its blooms are seen.
-  requestAnimationFrame(() => requestAnimationFrame(() => document.getElementById('top').classList.add('in-view')));
+  const hero = document.querySelector('.hero');
+  if (hero) requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add('in-view')));
 
   /* ---------- the guide bee ---------- */
   const guide = document.getElementById('guide');
@@ -115,10 +143,13 @@
     if (speed > .4 || now - lastMove < 400) raf = requestAnimationFrame(frame);
   }
   const kick = () => { lastMove = performance.now(); if (!raf) raf = requestAnimationFrame(frame); };
-  addEventListener('scroll', kick, { passive: true });
-  addEventListener('resize', () => { measure(); kick(); });
-  if ('ResizeObserver' in window) new ResizeObserver(() => { measure(); kick(); }).observe(document.body);
-  measure(); kick();
+  const flies = guide && perches.length > 1;
+  if (flies) {
+    addEventListener('scroll', kick, { passive: true });
+    addEventListener('resize', () => { measure(); kick(); });
+    if ('ResizeObserver' in window) new ResizeObserver(() => { measure(); kick(); }).observe(document.body);
+    measure(); kick();
+  }
 
   /* ---------- the messenger looks at you ---------- */
   const messenger = document.querySelector('.messenger-svg');
@@ -139,13 +170,78 @@
     root.classList.toggle('calm', calm);
     root.classList.toggle('motion', !calm);
     sw.setAttribute('aria-pressed', String(calm));
-    if (calm) { guide.style.transform = ''; if (pupils) pupils.removeAttribute('transform'); }
-    else { chapters.forEach(c => { if (c.getBoundingClientRect().top < innerHeight) c.classList.add('in-view'); }); placed = false; measure(); kick(); }
+    if (calm) { if (guide) guide.style.transform = ''; if (pupils) pupils.removeAttribute('transform'); }
+    else {
+      chapters.forEach(c => { if (c.getBoundingClientRect().top < innerHeight) c.classList.add('in-view'); });
+      if (flies) { placed = false; measure(); kick(); }
+    }
   }
-  sw.addEventListener('click', () => {
-    const calm = !root.classList.contains('calm');
-    store.set('localStorage', 'honeybee-motion', calm ? 'calm' : 'full');
-    applyMotion(calm);
+  if (sw) {
+    sw.addEventListener('click', () => {
+      const calm = !root.classList.contains('calm');
+      store.set('localStorage', 'honeybee-motion', calm ? 'calm' : 'full');
+      applyMotion(calm);
+    });
+    sw.setAttribute('aria-pressed', String(root.classList.contains('calm')));
+  }
+
+  /* ---------- resources: filter by stage ---------- */
+  const filter = document.querySelector('.res-filter');
+  if (filter) filter.addEventListener('click', e => {
+    const button = e.target.closest('button[data-filter]');
+    if (!button) return;
+    const stage = button.dataset.filter;
+    filter.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
+    document.querySelectorAll('.res-card').forEach(card => { card.hidden = stage !== 'all' && card.dataset.stage !== stage; });
   });
-  sw.setAttribute('aria-pressed', String(root.classList.contains('calm')));
+
+  /* ---------- contact page: prepare an email draft ---------- */
+  const contact = document.getElementById('contact-form');
+  if (contact && window.HoneyBusiness) {
+    contact.addEventListener('submit', event => {
+      event.preventDefault();
+      if (!contact.reportValidity()) return;
+      const need = document.getElementById('contact-need');
+      location.href = window.HoneyBusiness.enquiryLink({
+        name: document.getElementById('contact-name').value,
+        company: document.getElementById('contact-company').value,
+        need: need.options[need.selectedIndex].textContent,
+        message: document.getElementById('contact-message').value,
+        language
+      });
+      document.getElementById('contact-status').textContent = ui[language].emailDraft;
+    });
+    contact.querySelector('button[type="submit"]').disabled = false;
+  }
+
+  /* ---------- newsletter ---------- */
+  const letter = document.getElementById('letter-form');
+  if (letter && window.HoneyBusiness) {
+    const input = letter.querySelector('input[type="email"]');
+    const button = letter.querySelector('button[type="submit"]');
+    const status = document.getElementById('letter-status');
+    const say = (text, error) => { status.textContent = text; status.classList.toggle('is-error', !!error); };
+    letter.addEventListener('submit', async event => {
+      event.preventDefault();
+      if (letter.elements.website.value) { say(ui[language].letterDone); return; }
+      let request;
+      try { request = window.HoneyBusiness.subscription({ email: input.value, language, page: location.pathname }); }
+      catch (_) { input.setAttribute('aria-invalid', 'true'); say(ui[language].letterBad, true); input.focus(); return; }
+      input.removeAttribute('aria-invalid');
+      if (request.method === 'mailto') { location.href = request.url; say(ui[language].letterMail); return; }
+      button.disabled = true;
+      say(ui[language].letterBusy);
+      try {
+        // Apps Script answers from another origin; a no-cors post is delivered all the same.
+        await fetch(request.url, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: request.body });
+        letter.reset();
+        say(ui[language].letterDone);
+      } catch (_) {
+        say(ui[language].letterFail, true);
+      } finally {
+        button.disabled = false;
+      }
+    });
+    input.addEventListener('input', () => input.removeAttribute('aria-invalid'));
+  }
 })();

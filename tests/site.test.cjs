@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '../dist');
-const pages = ['index.html', 'fr.html', 'services.html', 'privacy.html'];
+const pages = ['index.html', 'fr.html', 'contact.html', 'resources.html', 'privacy.html', 'v1.html', 'services.html'];
 test('Published HTML references resolve to real assets and local anchors', () => {
   for (const file of pages) {
     const html = fs.readFileSync(path.join(root, file), 'utf8');
@@ -35,4 +35,30 @@ test('Self-hosted fonts have matching files and retained licences', () => {
   }
   assert.ok(fs.existsSync(path.join(root, 'assets/fonts/dmsans-OFL.txt')));
   assert.ok(fs.existsSync(path.join(root, 'assets/fonts/instrumentserif-OFL.txt')));
+});
+test('Ids are unique and every drawing reference points at a definition on the same page', () => {
+  for (const file of pages) {
+    const html = fs.readFileSync(path.join(root, file), 'utf8');
+    const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map(match => match[1]);
+    const repeated = ids.filter((id, index) => ids.indexOf(id) !== index);
+    assert.deepEqual([...new Set(repeated)], [], file + ': repeated ids');
+    const refs = [...html.matchAll(/url\(#([^)]+)\)|\b(?:href|xlink:href)="#([^"]+)"|\b(?:aria-controls|aria-labelledby|aria-describedby|for)="([^"]+)"/g)];
+    for (const id of refs.flatMap(match => (match[1] || match[2] || match[3]).split(' '))) {
+      assert.ok(ids.includes(id), file + ': nothing has id "' + id + '"');
+    }
+  }
+});
+test('Markup never ships an element hidden until a script reveals it', () => {
+  for (const file of pages) {
+    const html = fs.readFileSync(path.join(root, file), 'utf8');
+    assert.ok(!/class="[^"]*\bin-view\b/.test(html), file + ': in-view belongs to the script');
+  }
+});
+test('The sitemap lists every public page and no archived one', () => {
+  const sitemap = fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8');
+  for (const page of ['', 'fr.html', 'contact.html', 'resources.html', 'privacy.html']) assert.ok(sitemap.includes('https://honeybees.consulting/' + page + '</loc>'), 'sitemap: ' + page);
+  for (const page of ['v1.html', 'services.html']) {
+    assert.ok(!sitemap.includes(page), 'sitemap lists ' + page);
+    assert.match(fs.readFileSync(path.join(root, page), 'utf8'), /name="robots" content="noindex/, page + ' should be noindex');
+  }
 });
