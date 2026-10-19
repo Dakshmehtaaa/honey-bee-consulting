@@ -165,11 +165,14 @@ def data():
     # validated badge
     s.append(f'<g class="{p.pop(4.6)}"><circle cx="452" cy="74" r="22" fill="#4F7A45" stroke="{INK}" stroke-width="3"/>'
              f'<path d="M441 74l8 8 14-15" fill="none" stroke="{PAPER}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></g>')
-    # clock: time saved
-    s.append(f'<g class="{p.fade(5.0, 5.5, dy=10)}"><rect x="196" y="262" width="120" height="44" rx="22" fill="{POLLEN}" stroke="{INK}" stroke-width="3"/>'
-             f'<circle cx="220" cy="284" r="11" fill="{PAPER}" stroke="{INK}" stroke-width="2.5"/><path d="M220 277v7l5 4" fill="none" stroke="{INK}" stroke-width="2.5" stroke-linecap="round"/>'
-             f'<text x="242" y="291" font-family="DM Sans,Arial,sans-serif" font-size="19" font-weight="700" fill="{INK}">-70%</text></g>')
-    return p.svg("".join(s), "Spreadsheets, PDFs and emails flow into an AI chip and come out as a checked dashboard, saving time"), p.css
+    # pills: time and cost saved
+    s.append(f'<g class="{p.fade(5.0, 5.5, dy=10)}"><rect x="186" y="252" width="136" height="40" rx="20" fill="{POLLEN}" stroke="{INK}" stroke-width="3"/>'
+             f'<circle cx="207" cy="272" r="10" fill="{PAPER}" stroke="{INK}" stroke-width="2.5"/><path d="M207 266v6l4 3.5" fill="none" stroke="{INK}" stroke-width="2.5" stroke-linecap="round"/>'
+             f'<text x="224" y="278" font-family="DM Sans,Arial,sans-serif" font-size="17" font-weight="700" fill="{INK}">-70% time</text></g>')
+    s.append(f'<g class="{p.fade(5.4, 5.9, dy=10)}"><rect x="186" y="300" width="136" height="40" rx="20" fill="{PAPER}" stroke="{INK}" stroke-width="3"/>'
+             f'<circle cx="207" cy="320" r="10" fill="{POLLEN}" stroke="{INK}" stroke-width="2.5"/><text x="207" y="325" text-anchor="middle" font-family="DM Sans,Arial,sans-serif" font-size="13" font-weight="700" fill="{INK}">€</text>'
+             f'<text x="224" y="326" font-family="DM Sans,Arial,sans-serif" font-size="17" font-weight="700" fill="{INK}">-50% cost</text></g>')
+    return p.svg("".join(s), "Spreadsheets, PDFs and emails flow into an AI chip and come out as a checked dashboard: 70% less time and 50% lower cost"), p.css
 
 
 # ---------------------------------------------------------------- 3 · reporting & narrative
