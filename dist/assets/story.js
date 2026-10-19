@@ -5,6 +5,56 @@
   const english = {};
   const englishAttributes = {};
   const ATTRS = [['data-i18n-aria', 'aria-label'], ['data-i18n-alt', 'alt'], ['data-i18n-placeholder', 'placeholder']];
+  // Terms that get an underline, a logo tooltip and a link to the official site, wherever they appear in these blocks.
+  const TERMS = {
+    'CSRD': ['https://finance.ec.europa.eu/capital-markets-union-and-financial-markets/company-reporting-and-auditing/company-reporting/corporate-sustainability-reporting_en', 'csrd.svg'],
+    'ESRS': ['https://www.efrag.org/en/sustainability-reporting', 'esrs.webp'],
+    'EcoVadis': ['https://ecovadis.com/', 'ecovadis.webp'],
+    'B Corp': ['https://www.bcorporation.net/', 'b-impact-assessment.webp'],
+    'ISO': ['https://www.iso.org/', 'iso.webp'],
+    'SBTi': ['https://sciencebasedtargets.org/', 'sbti.webp'],
+    'CDP': ['https://www.cdp.net/', 'cdp.webp'],
+    'GRI': ['https://www.globalreporting.org/', 'gri.webp']
+  };
+  const TERM_BLOCKS = '.chapter-text, .compete-key [data-i18n], .loop-panel p, .pd-body';
+  const termPattern = new RegExp('\\b(' + Object.keys(TERMS).map(t => t.replace(' ', '\\s')).join('|') + ')\\b', 'g');
+  function markTerms(block) {
+    const walker = document.createTreeWalker(block, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) if (!walker.currentNode.parentElement.closest('.term')) nodes.push(walker.currentNode);
+    nodes.forEach(node => {
+      const text = node.nodeValue;
+      termPattern.lastIndex = 0;
+      if (!termPattern.test(text)) return;
+      const frag = document.createDocumentFragment();
+      let last = 0;
+      text.replace(termPattern, (match, term, at) => {
+        frag.append(text.slice(last, at));
+        const [href, logo] = TERMS[term.replace(/\s/, ' ')];
+        const a = document.createElement('a');
+        a.className = 'term';
+        a.href = href;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.textContent = match;
+        const tip = document.createElement('span');
+        tip.className = 'term-tip';
+        tip.setAttribute('aria-hidden', 'true');
+        tip.innerHTML = '<img src="assets/logos/' + logo + '" alt="" loading="lazy">';
+        a.append(tip);
+        frag.append(a);
+        last = at + match.length;
+      });
+      frag.append(text.slice(last));
+      node.replaceWith(frag);
+    });
+  }
+  // the tooltip follows the pointer along the word
+  document.addEventListener('pointermove', e => {
+    const term = e.target.closest && e.target.closest('.term');
+    if (term) term.style.setProperty('--tx', (e.clientX - term.getBoundingClientRect().left) + 'px');
+  }, { passive: true });
+  document.addEventListener('focusin', e => { if (e.target.classList && e.target.classList.contains('term')) e.target.style.removeProperty('--tx'); });
   const store = {
     get(area, key) { try { return window[area].getItem(key); } catch (_) { return null; } },
     set(area, key, value) { try { window[area].setItem(key, value); } catch (_) { /* Preferences are optional. */ } }
@@ -62,6 +112,7 @@
       a.setAttribute('href', file + '?' + params + (hash ? '#' + hash : ''));
     });
     store.set('localStorage', 'honeybee-language', language);
+    document.querySelectorAll(TERM_BLOCKS).forEach(markTerms);
   }
   document.querySelectorAll('[data-lang]').forEach(b => b.addEventListener('click', () => setLanguage(b.dataset.lang)));
   const requested = new URLSearchParams(location.search).get('lang') || (location.pathname.endsWith('/fr.html') ? 'fr' : null) || store.get('localStorage', 'honeybee-language');
@@ -96,6 +147,14 @@
     }), { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
     chapters.forEach(c => io.observe(c));
   } else chapters.forEach(c => c.classList.add('in-view'));
+  // "Compliant only" gets crossed out, then the tick card follows, once the pair itself is on screen.
+  const contrast = document.querySelector('.contrast');
+  if (contrast) {
+    if ('IntersectionObserver' in window) {
+      const cio = new IntersectionObserver(([e]) => { if (e.isIntersecting) { contrast.classList.add('is-drawn'); cio.disconnect(); } }, { threshold: .6 });
+      cio.observe(contrast);
+    } else contrast.classList.add('is-drawn');
+  }
   // The hero waits for the loader so its blooms are seen.
   const hero = document.querySelector('.hero');
   if (hero) requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add('in-view')));
@@ -170,7 +229,13 @@
     const ring = loop.querySelector('.loop-ring');
     const nodes = [...loop.querySelectorAll('.loop-node')];
     const panels = [...loop.querySelectorAll('.loop-panel')];
-    let index = 0, angle = 0, timer = 0, seen = false, held = false;
+    let index = 0, angle = 0, timer = 0, landing = 0, seen = false, held = false;
+    // the step lights up a little more once the bee has landed on it (the flight takes 1s)
+    const land = () => {
+      clearTimeout(landing);
+      nodes.forEach(n => n.classList.remove('is-landed'));
+      landing = setTimeout(() => nodes[index].classList.add('is-landed'), root.classList.contains('motion') ? 950 : 0);
+    };
     // The bee only ever flies forward round the ring, however far it has to go.
     const select = i => {
       angle += ((i - index + nodes.length) % nodes.length) * (360 / nodes.length);
@@ -179,12 +244,14 @@
       ring.style.setProperty('--flip', i >= nodes.length / 2 ? -1 : 1);
       nodes.forEach((n, k) => { n.classList.toggle('is-active', k === i); n.setAttribute('aria-pressed', String(k === i)); });
       panels.forEach((p, k) => p.classList.toggle('is-active', k === i));
+      land();
     };
     const schedule = () => {
       clearTimeout(timer);
       if (seen && !held && root.classList.contains('motion')) timer = setTimeout(() => { select((index + 1) % nodes.length); schedule(); }, 4200);
     };
     loopRestart = schedule;
+    land();
     nodes.forEach((n, k) => n.addEventListener('click', () => { select(k); schedule(); }));
     const hold = on => () => { held = on; schedule(); };
     loop.addEventListener('pointerenter', hold(true));
@@ -257,6 +324,35 @@
     track.addEventListener('scroll', ends, { passive: true });
     addEventListener('resize', ends);
     ends();
+  }
+
+  /* ---------- how we help: a card opens its service panel (the link still works without JavaScript) ---------- */
+  const dialog = document.getElementById('pillar-dialog');
+  if (dialog && typeof dialog.showModal === 'function') {
+    const media = dialog.querySelector('.pd-media');
+    let opener = null;
+    document.querySelectorAll('.crew-card[data-pillar]').forEach(card => card.addEventListener('click', e => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button > 0) return;
+      e.preventDefault();
+      opener = card;
+      const tint = getComputedStyle(card);
+      dialog.style.setProperty('--tint', tint.getPropertyValue('--tint'));
+      dialog.style.setProperty('--tone', tint.getPropertyValue('--tone'));
+      media.replaceChildren(card.querySelector('.pv').cloneNode(true));
+      media.classList.add('pv-play');
+      dialog.querySelector('.pd-tag').textContent = card.querySelector('.crew-tag').textContent.trim().replace(/^(\d+)/, '$1 · ');
+      dialog.querySelector('#pillar-title').textContent = card.querySelector('h3').textContent;
+      const body = dialog.querySelector('.pd-body');
+      body.textContent = (card.querySelector('.crew-more') || card.querySelector('.crew-body')).textContent;
+      markTerms(body);
+      dialog.querySelector('.pd-logos').replaceChildren(...[...card.querySelector('.crew-logos').children].map(n => n.cloneNode(true)));
+      dialog.querySelector('.pd-cta').href = card.getAttribute('href');
+      dialog.showModal();
+    }));
+    dialog.querySelector('.pd-close').addEventListener('click', () => dialog.close());
+    // a click on the dimmed backdrop closes it too
+    dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
+    dialog.addEventListener('close', () => { media.classList.remove('pv-play'); if (opener) opener.focus(); });
   }
 
   /* ---------- contact page: a service card can pick the subject ---------- */

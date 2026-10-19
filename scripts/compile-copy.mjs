@@ -7,7 +7,7 @@ const attributes = {};
 function decode(text) { return text.replaceAll('&amp;', '&').replaceAll('&quot;', '"').replaceAll('&#39;', "'").replaceAll('&lt;', '<').replaceAll('&gt;', '>'); }
 function encode(text) { return text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;'); }
 const tagPattern = /(<([a-z][\w-]*)\b[^>]*\bdata-i18n="([^"]+)"[^>]*>)([^<]*)(<\/\2>)/gi;
-for (const name of ['index.html', 'contact.html', 'resources.html', 'privacy.html', 'v1.html']) {
+for (const name of ['index.html', 'contact.html', 'resources.html', 'privacy.html']) {
   const html = await fs.readFile(path.join(root, 'dist', name), 'utf8');
   for (const match of html.matchAll(tagPattern)) english[match[3]] = decode(match[4]);
   for (const [key, attribute] of [['data-i18n-aria', 'aria-label'], ['data-i18n-alt', 'alt'], ['data-i18n-placeholder', 'placeholder']]) {

@@ -34,7 +34,7 @@ The current site uses only vector drawings made for it: the hero (a straw skep h
 
 Framework and tool logos in `dist/assets/logos/` come from Daksh's personal website (its for-companies resources and portfolio). They name what we work with and imply no accreditation or partnership.
 
-`dist/assets/bee-meadow.webp` (a generated illustrative nature image) and `dist/assets/daksh.webp` are only used by the V1 archive now. The bee image is not evidence of a client project or environmental result.
+The V1 archive and its images (`bee-meadow.webp`, `daksh.webp`) were removed on 2026-10-19.
 
 ## Image-generation prompt
 
