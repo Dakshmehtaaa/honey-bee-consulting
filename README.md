@@ -1,17 +1,18 @@
 # honeybees.consulting
 
-An ESG and CSR consulting website for companies, by Daksh Mehta. One message, said plainly: sooner or later your customers choose the more sustainable supplier, so turn ESG into your competitive edge.
+An ESG and CSR consulting website for companies, by Daksh Mehta. One message, said plainly: turn ESG into your competitive edge, because clients pick the company with the strongest ESG.
 
 **Public website:** https://honeybees.consulting/ (GitHub Pages custom domain; `dist/CNAME`)
 **French homepage:** https://honeybees.consulting/fr.html
 
 ## The site
 
-- `dist/index.html`, the homepage, is a short illustrated scroll in five chapters: the hero (turn ESG into your competitive edge), the market (many competitors as box hives with an ESG score out of 100, drawn 2400 wide and sliced from the middle so it runs edge to edge on any screen), beyond compliance (compliance is the floor, performance wins clients, shown as a four-step loop: Environment, People, Proof, Clients, which autoplays while in view and pauses on hover or focus), four ways we help (the Inspector, the Engineer, the Storyteller and the Gardener: a row of cards that scrolls sideways when it does not fit, each card linking to the contact form with its subject preselected) and contact. A guide bee flies from chapter to chapter, landing on `[data-perch]` points (`dist/assets/story.js`). At the top its goggles lie in the grass; it puts them on as soon as the visitor scrolls. A short loader plays once per browser session. Calm mode (header switch, remembered) and `prefers-reduced-motion` turn all motion off, and every chapter has a finished resting state without JavaScript.
+- `dist/index.html`, the homepage, is a short illustrated scroll in five chapters: the hero (turn ESG into your competitive edge, with a Book a call button), the market (competitors look the same, clients pick the strongest ESG: box hives with an ESG score out of 100, drawn 2400 wide and sliced from the middle so it runs edge to edge on any screen), beyond compliance (compliance is the floor, performance wins clients, shown as a four-step loop: Environment, People, Proof, Clients, with Gemini-made pictures; it autoplays while in view, pauses on hover or focus, and the step lights up more once the bee lands on it), four ways we help you win (Ratings, Data & AI, Reporting, Impact: a row of cards, each with a simple motion picture that plays on hover; a click opens a full-screen service panel with the picture large on the left and the words, logos and a Book a call button on the right) and contact. A guide bee flies from chapter to chapter, landing on `[data-perch]` points (`dist/assets/story.js`). At the top its goggles lie in the grass; it puts them on as soon as the visitor scrolls. A short loader plays once per browser session. Calm mode (header switch, remembered) and `prefers-reduced-motion` turn all motion off, and every chapter has a finished resting state without JavaScript.
+- Terms such as CSRD, EcoVadis, B Corp, ISO, SBTi and CDP in the body copy are underlined by `story.js` (`TERMS`): hovering shows the logo, a click opens the official site. Add a term there, not in the HTML, so it works in both languages.
 - `dist/contact.html`: the enquiry form, which prepares an email draft in the visitor's own email app, plus direct contact details.
-- `dist/resources.html`: free frameworks and tools to get started, filterable by stage (Measure, Decide, Disclose, Act), taken from the resources on Daksh's personal website.
+- `dist/resources.html`: free frameworks and tools to get started, filterable by stage (Measure, Decide, Disclose, Act), taken from the resources on Daksh's personal website. The first card is Daksh's CO₂ calculator, which lives on his personal site and stays labelled Beta.
 - `dist/privacy.html`: publisher, data handling and the newsletter.
-- `dist/v1.html`: the first version of the site, kept as an archive (noindex, linked from the footer, with a banner back to the current site). `dist/services.html` redirects there so old links still work.
+- `dist/services.html` redirects to the homepage's services so old links still work. (The V1 archive was removed on 2026-10-19.)
 - Every page has the same header (Why ESG, How we help, Resources, Contact) and footer, with a newsletter sign-up that collects email addresses only (see `backend/newsletter/`).
 
 English and French throughout, including a static French homepage for search and direct sharing. No analytics, advertising pixels or tracking cookies. The only data the site sends anywhere is a newsletter sign-up, and only when someone subscribes.
@@ -35,12 +36,12 @@ No package installation is needed to view or serve the website or run those chec
 ## Editing
 
 - **English content:** `dist/index.html`, `dist/contact.html`, `dist/resources.html` and `dist/privacy.html`.
-- **Shared header, footer and drawings:** don't edit the blocks between `<!--part:…-->` / `<!--art:…-->` markers by hand. The header, footer and head script come from `scripts/build-pages.py`; the drawings from `scripts/brand/site_art.py` (scene helpers in `scripts/brand/art.py`, bees in `scripts/brand/bees.py`). Re-run `python3 scripts/build-pages.py` after changing any of them (`--preview DIR` also writes each drawing as its own SVG).
+- **Shared header, footer and drawings:** don't edit the blocks between `<!--part:…-->` / `<!--art:…-->` markers by hand. The header, footer and head script come from `scripts/build-pages.py`; the drawings from `scripts/brand/site_art.py` and `scripts/brand/pillars.py` (scene helpers in `scripts/brand/art.py`, bees in `scripts/brand/bees.py`). Re-run `python3 scripts/build-pages.py` after changing any of them (`--preview DIR` also writes each drawing as its own SVG).
 - **Styling and motion:** `dist/assets/story.css` and `dist/assets/story.js`. Animations only add start states under `.motion`, so never hide content outside that class.
 - **Framework and tool logos:** `dist/assets/logos/`. On the homepage each logo has its own `--h` (start from 34px × aspect^-0.42, then nudge thin marks up and solid ones down by eye); on the resources page each has its own `--mw`.
 - **French content:** `dist/assets/fr.json`. Every `data-i18n` key needs a French entry (the tests check it).
 - **Newsletter and email drafts:** `dist/assets/business-core.js` (`NEWSLETTER_URL`, `subscription`, `enquiryLink`).
-- **V1 archive:** `dist/v1.html` with `dist/assets/app.js`, `experience.js`, `style.css` and `experience.css`. Leave it as it is.
+- **Service motion pictures:** `scripts/brand/pillars.py` (SVG plus generated keyframes in `dist/assets/pillars.css`; no bees, no ids). The SVG attributes are the finished frame, so calm mode shows a complete picture.
 - **Contact:** search the HTML and `business-core.js` for `dakshmehta077@gmail.com` (any case) when replacing it with the future business address.
 
 After changing pages, art or copy, rebuild and check:

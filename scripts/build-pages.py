@@ -10,6 +10,10 @@ Pages stay hand-editable. Only these marked blocks are rewritten:
 import os, re, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'brand'))
 from site_art import PIECES
+from pillars import PILLARS, stylesheet as pillar_css
+
+for _name, _make in PILLARS.items():
+    PIECES['pillar-' + _name] = (lambda m: lambda: m()[0])(_make)
 
 DIST = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'dist')
 PAGES = ['index.html', 'contact.html', 'resources.html', 'privacy.html']
@@ -63,7 +67,6 @@ def header(page):
 def footer(page):
     return f'''<footer class="foot">
     <section class="wrap letter" aria-labelledby="letter-title">
-      <div class="letter-art" aria-hidden="true">{PIECES['letter']()}</div>
       <div class="letter-copy">
         <h2 id="letter-title" data-i18n="letter.title">The honeybees letter</h2>
         <p data-i18n="letter.body">Short, useful ESG news for companies: new rules, what clients now ask for, what works. Once a month at most.</p>
@@ -89,7 +92,7 @@ def footer(page):
         <a href="privacy.html" data-lang-link data-i18n="footer.privacy">Privacy &amp; site information</a>
       </nav>
     </div>
-    <div class="wrap foot-bottom"><span>© 2026 honeybees.consulting · Daksh Mehta</span><a href="v1.html" data-lang-link data-i18n="footer.v1">Site V1 (archive)</a></div>
+    <div class="wrap foot-bottom"><span>© 2026 honeybees.consulting · Daksh Mehta</span></div>
   </footer>'''
 
 
@@ -111,6 +114,8 @@ if __name__ == '__main__':
             if v.startswith('<svg'):
                 with open(os.path.join(d, k + '.svg'), 'w') as f:
                     f.write(v.replace('<svg class=', '<svg width="100%" class=', 1).replace('focusable="false">', 'focusable="false">' + art['defs'], 1))
+    with open(os.path.join(DIST, 'assets', 'pillars.css'), 'w') as f:
+        f.write(pillar_css())
     for page in PAGES:
         p = os.path.join(DIST, page)
         html = open(p).read()

@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '../dist');
-const pages = ['index.html', 'fr.html', 'contact.html', 'resources.html', 'privacy.html', 'v1.html', 'services.html'];
+const pages = ['index.html', 'fr.html', 'contact.html', 'resources.html', 'privacy.html', 'services.html'];
 test('Published HTML references resolve to real assets and local anchors', () => {
   for (const file of pages) {
     const html = fs.readFileSync(path.join(root, file), 'utf8');
@@ -54,11 +54,15 @@ test('Markup never ships an element hidden until a script reveals it', () => {
     assert.ok(!/class="[^"]*\bin-view\b/.test(html), file + ': in-view belongs to the script');
   }
 });
-test('The sitemap lists every public page and no archived one', () => {
+test('The sitemap lists every public page and no redirect', () => {
   const sitemap = fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8');
   for (const page of ['', 'fr.html', 'contact.html', 'resources.html', 'privacy.html']) assert.ok(sitemap.includes('https://honeybees.consulting/' + page + '</loc>'), 'sitemap: ' + page);
-  for (const page of ['v1.html', 'services.html']) {
+  for (const page of ['services.html']) {
     assert.ok(!sitemap.includes(page), 'sitemap lists ' + page);
     assert.match(fs.readFileSync(path.join(root, page), 'utf8'), /name="robots" content="noindex/, page + ' should be noindex');
   }
+});
+test('The V1 archive is gone and nothing links to it', () => {
+  assert.ok(!fs.existsSync(path.join(root, 'v1.html')));
+  for (const file of pages) assert.ok(!fs.readFileSync(path.join(root, file), 'utf8').includes('v1.html'), file + ' links to v1.html');
 });
