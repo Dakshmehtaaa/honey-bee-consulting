@@ -18,7 +18,7 @@ for _name, _make in PILLARS.items():
 
 DIST = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'dist')
 PAGES = ['index.html', 'contact.html', 'resources.html', 'privacy.html']
-EMAIL = 'dakshmehta077@gmail.com'
+EMAIL = 'daksh.mehta@honeybees.consulting'
 LINKEDIN = 'https://www.linkedin.com/company/146731866/'  # the honeybees.consulting company page
 
 

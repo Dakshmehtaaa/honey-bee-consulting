@@ -66,7 +66,7 @@
       letterBusy: 'Adding you…',
       letterDone: 'You’re on the list. Thank you!',
       letterMail: 'Your email app should open with a short sign-up email. Press send and you’re on the list.',
-      letterFail: 'That didn’t go through. Please try again, or write to dakshmehta077@gmail.com.'
+      letterFail: 'That didn’t go through. Please try again, or write to daksh.mehta@honeybees.consulting.'
     },
     fr: {
       emailDraft: 'Votre messagerie devrait s’ouvrir avec un brouillon. Rien n’est envoyé tant que vous n’appuyez pas sur Envoyer.',
@@ -74,7 +74,7 @@
       letterBusy: 'Inscription en cours…',
       letterDone: 'Vous êtes inscrit·e. Merci !',
       letterMail: 'Votre messagerie devrait s’ouvrir avec un court e-mail d’inscription. Envoyez-le et c’est fait.',
-      letterFail: 'L’inscription n’a pas abouti. Réessayez, ou écrivez à dakshmehta077@gmail.com.'
+      letterFail: 'L’inscription n’a pas abouti. Réessayez, ou écrivez à daksh.mehta@honeybees.consulting.'
     }
   };
 

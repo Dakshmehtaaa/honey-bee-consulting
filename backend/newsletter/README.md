@@ -26,7 +26,7 @@ from. Repeat sign-ups of the same address are ignored.
 - The browser posts with `mode: 'no-cors'`, so the page can't read the reply. It shows "You're on
   the list" once the request has gone and an error only when the network fails.
 - Until `NEWSLETTER_URL` is set, the button opens a ready-made sign-up email to
-  dakshmehta077@gmail.com instead, so the form is never a dead end.
+  daksh.mehta@honeybees.consulting instead, so the form is never a dead end.
 
 ## Changing the script later
 
