@@ -147,6 +147,14 @@
     }), { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
     chapters.forEach(c => io.observe(c));
   } else chapters.forEach(c => c.classList.add('in-view'));
+  // "Compliant only" gets crossed out, then the tick card follows, once the pair itself is on screen.
+  const contrast = document.querySelector('.contrast');
+  if (contrast) {
+    if ('IntersectionObserver' in window) {
+      const cio = new IntersectionObserver(([e]) => { if (e.isIntersecting) { contrast.classList.add('is-drawn'); cio.disconnect(); } }, { threshold: .6 });
+      cio.observe(contrast);
+    } else contrast.classList.add('is-drawn');
+  }
   // The hero waits for the loader so its blooms are seen.
   const hero = document.querySelector('.hero');
   if (hero) requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add('in-view')));

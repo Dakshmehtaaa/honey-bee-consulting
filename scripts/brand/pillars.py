@@ -288,15 +288,14 @@ def _chart(kind):
                 + f'<path d="M236 272H428" stroke="{INK}" stroke-width="4" stroke-linecap="round"/>'
                 + f'<path d="M259 196 309 160 359 178 409 120" fill="none" stroke="{INK}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>'
                 + "".join(f'<circle cx="{x}" cy="{y}" r="7" fill="{PAPER}" stroke="{INK}" stroke-width="3"/>' for x, y in ((259, 196), (309, 160), (359, 178), (409, 120))))
-    if kind == "reporting":  # a report with a donut and a few lines
-        return (f'<rect x="232" y="48" width="208" height="262" rx="14" fill="{INK}" opacity=".12"/>'
-                + f'<path d="M226 40h150l46 46v214H226z" fill="{PAPER}" stroke="{INK}" stroke-width="4" stroke-linejoin="round"/><path d="M376 40v46h46" fill="none" stroke="{INK}" stroke-width="4" stroke-linejoin="round"/>'
-                + f'<rect x="248" y="62" width="104" height="22" rx="6" fill="{FOREST}"/>'
-                + f'<circle cx="300" cy="160" r="44" fill="none" stroke="{LINE}" stroke-width="22"/>'
-                + f'<path d="M300 116a44 44 0 1 1-41.8 57.6" fill="none" stroke="{TEAL}" stroke-width="22"/><path d="M258.2 173.6A44 44 0 0 1 300 116" fill="none" stroke="{POLLEN}" stroke-width="22"/>'
-                + f'<circle cx="300" cy="160" r="66" fill="none" stroke="{INK}" stroke-width="0"/>'
-                + f'<text x="366" y="152" {F} font-size="26" fill="{TEAL}">-32%</text><text x="368" y="174" {F} font-size="13" fill="{MUTED}" letter-spacing="1">CO₂</text>'
-                + "".join(f'<path d="M250 {232 + i * 22}h{w}" stroke="{LINE}" stroke-width="9" stroke-linecap="round"/>' for i, w in enumerate((150, 124, 140))))
+    if kind == "reporting":  # a report with a donut and a few lines, on the same size of paper as the others
+        return (_card(214, 52, 236, 248)
+                + f'<path d="M406 54l42 42h-30a12 12 0 0 1-12-12z" fill="{SAGE}" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>'
+                + f'<rect x="240" y="76" width="104" height="20" rx="6" fill="{FOREST}"/>'
+                + f'<circle cx="286" cy="158" r="36" fill="none" stroke="{LINE}" stroke-width="20"/>'
+                + f'<path d="M286 122a36 36 0 1 1-34.2 47.1" fill="none" stroke="{TEAL}" stroke-width="20"/><path d="M251.8 169.1A36 36 0 0 1 286 122" fill="none" stroke="{POLLEN}" stroke-width="20"/>'
+                + f'<text x="342" y="154" {F} font-size="26" fill="{TEAL}">-32%</text><text x="344" y="176" {F} font-size="13" fill="{MUTED}" letter-spacing="1">CO₂</text>'
+                + "".join(f'<path d="M242 {226 + i * 22}h{w}" stroke="{LINE}" stroke-width="9" stroke-linecap="round"/>' for i, w in enumerate((176, 140, 160))))
     # impact: emissions come down year after year
     return (_card(214, 52, 236, 248)
             + f'<text x="240" y="98" {F} font-size="16" fill="{MUTED}" letter-spacing="1.5">CO₂ / YEAR</text>'
