@@ -10,10 +10,11 @@ Pages stay hand-editable. Only these marked blocks are rewritten:
 import os, re, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'brand'))
 from site_art import PIECES
-from pillars import PILLARS, stylesheet as pillar_css
+from pillars import PILLARS, COVERS, stylesheet as pillar_css
 
 for _name, _make in PILLARS.items():
     PIECES['pillar-' + _name] = (lambda m: lambda: m()[0])(_make)
+    PIECES['cover-' + _name] = COVERS[_name]
 
 DIST = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'dist')
 PAGES = ['index.html', 'contact.html', 'resources.html', 'privacy.html']
