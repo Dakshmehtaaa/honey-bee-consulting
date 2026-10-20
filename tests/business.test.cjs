@@ -32,7 +32,7 @@ test('Zero spend and zero saving rate give zero benefit', () => {
 });
 test('Email drafts preserve accents, line breaks and literal unsafe query characters', () => {
   const href = enquiryLink({ name: 'Élodie', company: 'A&B #Paris', need: 'RSE', message: 'Budget ?\nEncore & plus', language: 'fr' });
-  assert.ok(href.startsWith('mailto:Dakshmehta077@gmail.com?subject='));
+  assert.ok(href.startsWith('mailto:daksh.mehta@honeybees.consulting?subject='));
   const query = new URLSearchParams(href.split('?')[1]);
   assert.equal(query.get('subject'), 'honeybees.consulting — échange avec A&B #Paris');
   assert.ok(query.get('body').includes('Budget ?\nEncore & plus'));
@@ -53,6 +53,6 @@ test('Newsletter sign-ups post form fields to the sheet once it is configured', 
 test('Without a sheet address, sign-ups fall back to a ready-made email', () => {
   const request = subscription({ email: 'a@b.co', language: 'en', page: '/', endpoint: '' });
   assert.equal(request.method, 'mailto');
-  assert.ok(request.url.startsWith('mailto:dakshmehta077@gmail.com?subject='));
+  assert.ok(request.url.startsWith('mailto:daksh.mehta@honeybees.consulting?subject='));
   assert.ok(new URLSearchParams(request.url.split('?')[1]).get('body').includes('a@b.co'));
 });

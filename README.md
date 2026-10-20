@@ -42,7 +42,7 @@ No package installation is needed to view or serve the website or run those chec
 - **French content:** `dist/assets/fr.json`. Every `data-i18n` key needs a French entry (the tests check it).
 - **Newsletter and email drafts:** `dist/assets/business-core.js` (`NEWSLETTER_URL`, `subscription`, `enquiryLink`).
 - **Service motion pictures:** `scripts/brand/pillars.py` (SVG plus generated keyframes in `dist/assets/pillars.css`; no bees, no ids). The SVG attributes are the finished frame, so calm mode shows a complete picture.
-- **Contact:** search the HTML and `business-core.js` for `dakshmehta077@gmail.com` (any case) when replacing it with the future business address.
+- **Contact:** `daksh.mehta@honeybees.consulting`, set as `EMAIL` in `scripts/build-pages.py` and hard-coded in `contact.html`, `privacy.html`, `story.js` and `business-core.js`. Search for it (any case) when changing it.
 
 After changing pages, art or copy, rebuild and check:
 
