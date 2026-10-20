@@ -49,12 +49,20 @@
       node.replaceWith(frag);
     });
   }
-  // the tooltip follows the pointer along the word
-  document.addEventListener('pointermove', e => {
+  // the tooltip follows the pointer along the word, but never leaves the screen; its arrow keeps pointing at the word
+  function placeTip(term, clientX) {
+    const r = term.getBoundingClientRect();
+    const want = clientX == null ? r.left + r.width / 2 : clientX;
+    const half = 75 + 8;
+    const x = Math.min(Math.max(want, half), document.documentElement.clientWidth - half);
+    term.style.setProperty('--tx', (x - r.left) + 'px');
+    term.style.setProperty('--ax', (want - x) + 'px');
+  }
+  ['pointerover', 'pointermove'].forEach(type => document.addEventListener(type, e => {
     const term = e.target.closest && e.target.closest('.term');
-    if (term) term.style.setProperty('--tx', (e.clientX - term.getBoundingClientRect().left) + 'px');
-  }, { passive: true });
-  document.addEventListener('focusin', e => { if (e.target.classList && e.target.classList.contains('term')) e.target.style.removeProperty('--tx'); });
+    if (term) placeTip(term, e.clientX);
+  }, { passive: true }));
+  document.addEventListener('focusin', e => { if (e.target.classList && e.target.classList.contains('term')) placeTip(e.target); });
   const store = {
     get(area, key) { try { return window[area].getItem(key); } catch (_) { return null; } },
     set(area, key, value) { try { window[area].setItem(key, value); } catch (_) { /* Preferences are optional. */ } }
