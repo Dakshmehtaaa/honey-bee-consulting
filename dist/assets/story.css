@@ -157,6 +157,13 @@ h2 em,h1 em{font-style:italic;color:var(--forest)}
 /* the comb's branch grows in from the right edge of the screen, not from the column edge */
 .hero-art{--bleed:max(20px, (100vw - var(--maxw)) / 2);position:relative;width:min(1040px, 100% + var(--bleed));margin-left:auto;margin-right:calc(-1 * var(--bleed));z-index:1}
 .hero-svg{width:100%;height:auto;overflow:visible;margin-bottom:calc(var(--land) * -.62)}
+/* Beside the copy, the drawing sits on the meadow, not in the middle of the hero: on tall screens
+   (portrait tablets, 1440p and up) centring it left the flower stems hanging in the air above the grass. */
+@media (min-width:761px){
+  .hero{align-items:stretch}
+  .hero-art{align-self:end}
+  .hero-svg{margin-bottom:calc(var(--land) * -.2)}
+}
 /* the meadow runs edge to edge under the whole hero */
 .hero-land{position:absolute;left:0;right:0;bottom:0;height:var(--land);z-index:2;pointer-events:none}
 .hero-land-svg{width:100%;height:100%}
@@ -216,15 +223,17 @@ h2 em,h1 em{font-style:italic;color:var(--forest)}
 .contrast-no .contrast-mark{background:#DCDDD2}
 .contrast-no .contrast-mark::before{background:var(--muted);clip-path:polygon(15% 0,50% 35%,85% 0,100% 15%,65% 50%,100% 85%,85% 100%,50% 65%,15% 100%,0 85%,35% 50%,0 15%)}
 .contrast-yes .contrast-mark{background:var(--pollen)}
-/* "compliant only" is crossed out with a black pen, drawn on when the chapter comes into view */
+/* "compliant only" is crossed out with a black pen, drawn on when the chapter comes into view.
+   The stroke is a background on each line box (box-decoration-break: clone), so every wrapped line of the
+   description is crossed out on a phone too; two absolutely placed bars missed lines once the text wrapped. */
 .struck{position:relative;display:block}
-.pen{position:absolute;left:-6px;right:-6px;height:2.6px;border-radius:2px;background:var(--ink);transform-origin:0 50%;pointer-events:none}
-.pen-1{top:30%}
-.pen-2{top:74%}
-/* order on arrival: the crossed-out card appears, two straight pen strokes run left to right, then the tick card fades in */
-.motion .contrast:not(.is-drawn) .pen{scale:0 1}
-.motion .contrast.is-drawn .pen{transition:scale .55s cubic-bezier(.65,0,.35,1) .7s}
-.motion .contrast.is-drawn .pen-2{transition-delay:1.15s}
+.struck b{display:table}
+.struck b,.struck>span{background:linear-gradient(var(--ink),var(--ink)) 0 58%/100% 2.4px no-repeat;padding:0 6px;margin:0 -6px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.pen{display:none}
+/* order on arrival: the crossed-out card appears, the pen runs left to right over the label, then the text, then the tick card fades in */
+.motion .contrast:not(.is-drawn) .struck b,.motion .contrast:not(.is-drawn) .struck>span{background-size:0 2.4px}
+.motion .contrast.is-drawn .struck b{transition:background-size .55s cubic-bezier(.65,0,.35,1) .7s}
+.motion .contrast.is-drawn .struck>span{transition:background-size .55s cubic-bezier(.65,0,.35,1) 1.15s}
 .contrast-yes .contrast-mark::before{width:13px;height:10px;background:var(--ink);clip-path:polygon(0 52%,14% 38%,38% 62%,86% 0,100% 14%,38% 90%)}
 /* the Guide waits in the gap between the two contrast cards and the loop */
 .perch-value{left:calc(100% + clamp(30px,3vw,45px));bottom:22%}

@@ -221,7 +221,7 @@ window.HONEY_FRENCH = {
   "privacy.publisher": "honeybees.consulting est la marque de conseil présentée par Daksh Mehta, basé à Paris, en France.",
   "privacy.contact": "Pour toute question sur ce site ou vos informations, écrivez à",
   "privacy.dataTitle": "Le formulaire de contact reste sur votre appareil.",
-  "privacy.data": "Le formulaire de contact prépare un brouillon d’e-mail dans votre propre messagerie. Rien de ce que vous y saisissez n’est transmis ni enregistré par ce site. Le calculateur de la première version archivée du site fonctionne lui aussi uniquement dans votre navigateur.",
+  "privacy.data": "Le formulaire de contact prépare un brouillon d’e-mail dans votre propre messagerie. Rien de ce que vous y saisissez n’est transmis ni enregistré par ce site. Le calculateur CO₂ proposé dans les ressources fonctionne lui aussi uniquement dans votre navigateur.",
   "privacy.email": "Si vous choisissez d’envoyer un e-mail, son contenu est traité par votre fournisseur de messagerie et celui du destinataire. Daksh utilise les informations de votre demande pour vous répondre et discuter de la mission envisagée. Vous pouvez le contacter pour toute question sur ces échanges ou pour en demander la suppression.",
   "privacy.preferencesTitle": "Préférences et mesure d’audience.",
   "privacy.preferences": "Le site mémorise votre langue et le mode calme dans le stockage local de votre navigateur (honeybee-language, honeybee-motion), ainsi que l’animation d’ouverture déjà vue dans le stockage de session (honeybee-loaded). Vous pouvez les effacer dans les paramètres des données de site de votre navigateur. Ce site n’ajoute ni outil de mesure d’audience, ni pixel publicitaire, ni cookie de suivi. Les polices et les images sont hébergées avec le site.",
@@ -232,7 +232,7 @@ window.HONEY_FRENCH = {
   "privacy.content": "Les abeilles, ruches et fleurs sont des illustrations vectorielles originales créées pour ce site. Les logos des référentiels et outils appartiennent à leurs propriétaires. Ils désignent les normes et outils avec lesquels nous travaillons et n’impliquent ni accréditation, ni partenariat, ni résultat d’évaluation garanti.",
   "privacy.scopeTitle": "Échanger sur un projet.",
   "privacy.scope": "L’envoi d’une demande ne crée pas de contrat de conseil. Le périmètre, les livrables, le calendrier, le prix et les modalités de partage des informations sont convenus séparément avant le début de la mission.",
-  "privacy.updated": "Dernière mise à jour : 15 octobre 2026",
+  "privacy.updated": "Dernière mise à jour : 21 novembre 2026",
   "nav.story": "L’histoire",
   "story.meta.title": "honeybees.consulting · Faites de l’ESG votre avantage concurrentiel",
   "story.meta.description": "Conseil RSE et ESG pour les entreprises. honeybees.consulting fait de l’ESG un avantage concurrentiel : notations, données, reporting et projets d’impact qui gagnent des clients.",
@@ -417,7 +417,7 @@ window.HONEY_ENGLISH = {
   "story.loop.prove.l": "Proof",
   "story.loop.win.l": "Clients",
   "story.loop.env.t": "Cut your footprint",
-  "story.loop.env.b": "Use less energy, waste and carbon. Lower costs, and progress your clients can measure.",
+  "story.loop.env.b": "Use less energy, waste and carbon. Lower costs and progress your clients can measure.",
   "story.loop.soc.t": "Strengthen your teams",
   "story.loop.soc.b": "Fair, safe work and real local impact. You keep good people and earn your clients’ trust.",
   "story.loop.prove.t": "Prove it",
@@ -516,7 +516,7 @@ window.HONEY_ENGLISH = {
   "privacy.publisher": "honeybees.consulting is the consulting brand presented by Daksh Mehta, based in Paris, France.",
   "privacy.contact": "For questions about the website or your information, write to",
   "privacy.dataTitle": "The contact form stays on your device.",
-  "privacy.data": "The contact form prepares an email draft in your own email app. Nothing you type there is sent to or saved by this website. The calculator on the archived first version of the site also runs only in your browser.",
+  "privacy.data": "The contact form prepares an email draft in your own email app. Nothing you type there is sent to or saved by this website. The CO₂ calculator linked from the resources page also runs only in your browser.",
   "privacy.email": "When you choose to send an email, its contents are handled by your email provider and the recipient’s email service. Daksh uses enquiry information to respond and discuss the requested work. You can contact him to ask about or request deletion of that correspondence.",
   "privacy.letterTitle": "The honeybees letter.",
   "privacy.letter": "If you subscribe, your email address, your language, the page you signed up on and the date are stored in a Google Sheet that only Daksh can open. Google receives them through a Google Apps Script form handler and processes them on his behalf. Your address is used only to send the letter and is never shared or sold.",
@@ -530,7 +530,7 @@ window.HONEY_ENGLISH = {
   "privacy.content": "The bees, hives and flowers are original vector illustrations made for this site. Framework and tool logos belong to their owners. They name the standards and tools we work with and do not imply an accreditation, partnership or guaranteed assessment result.",
   "privacy.scopeTitle": "Discussing a project.",
   "privacy.scope": "Sending an enquiry does not create a consulting agreement. Scope, deliverables, schedule, pricing and any information-sharing arrangements are agreed separately before a project begins.",
-  "privacy.updated": "Last updated: 15 October 2026"
+  "privacy.updated": "Last updated: 21 November 2026"
 };
 window.HONEY_EN_ATTRIBUTES = {
   "story.brandHome": "honeybees.consulting, home",
